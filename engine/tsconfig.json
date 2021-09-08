@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "outDir": "dist"
   }
 }
