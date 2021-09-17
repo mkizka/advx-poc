@@ -14,19 +14,15 @@ function Senario1() {
   )
 }
 
-advx.render(
-  <advx.story>
-    <advx.chapter name="シナリオ1" scenario={Senario1}>
-  </advx.story>
-)
+function Game() {
+  return (
+    <advx.game>
+      <advx.chapter name="シナリオ1" scenario={Senario1} />
+    </advx.game>
+  )
+}
 ```
 
-## API
-### advx.render
-ReactDOM.renderに渡す
-
-### advx.story
-chapterを登録する。react-routerみたいな感じ
-
-### advx.chapter
-シナリオコンポーネントに別名を与える
+## ライブラリの目的
+- ノベルゲーム制作に必要なシナリオ部分をJavaScript(JSX)で記述出来るようにする
+- 画面部分をReactで拡張できるようにする
