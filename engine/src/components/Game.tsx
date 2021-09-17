@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Stage, Container, Text } from "@inlet/react-pixi";
 import { TextStyle } from "@pixi/text";
+import { render } from "../renderer";
 
 function useWindowSize() {
   const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
@@ -20,6 +21,9 @@ function useWindowSize() {
 
 export function Game() {
   const [width, height] = useWindowSize();
+  useEffect(() => {
+    render(<Text>test</Text>);
+  }, []);
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>

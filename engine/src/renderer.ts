@@ -1,10 +1,8 @@
 import ReactReconciler from "react-reconciler";
 
-type Type = any;
+type Type = string;
 type Props = any;
-type Container = any;
-type Instance = any;
-type TextInstance = any;
+type TextInstance = string;
 type SuspenseInstance = any;
 type HydratableInstance = any;
 type PublicInstance = any;
@@ -14,11 +12,20 @@ type ChildSet = any;
 type TimeoutHandle = any;
 type NoTimeout = any;
 
+class Node {
+  constructor(public type: string, public children?: (Node | string)[]) {
+    this.children = children || [];
+  }
+  appendChild(child: Node | string) {
+    this.children.push(child);
+  }
+}
+
 type HostConfig = ReactReconciler.HostConfig<
   Type,
   Props,
-  Container,
-  Instance,
+  Node,
+  Node,
   TextInstance,
   SuspenseInstance,
   HydratableInstance,
@@ -32,98 +39,74 @@ type HostConfig = ReactReconciler.HostConfig<
 
 const hostConfig: HostConfig = {
   now: Date.now,
-  supportsMutation: false, //ok
+  supportsMutation: true, //ok
   supportsPersistence: false,
-  createInstance(
-    type: Type,
-    props: Props,
-    rootContainer: Container,
-    hostContext: HostContext,
-    internalHandle: any
-  ) {
-    return arguments;
+  createInstance(type) {
+    return new Node(type);
   },
-  createTextInstance(
-    text: string,
-    rootContainer: Container,
-    hostContext: HostContext,
-    internalHandle: any
-  ) {
+  createTextInstance(text) {
+    return text;
+  },
+  appendInitialChild(parentInstance, child) {
+    parentInstance.appendChild(child);
+  },
+  finalizeInitialChildren() {
+    // 必要なければfalseを返す
+    return false;
+  },
+  prepareUpdate() {
     throw new Error("Function not implemented.");
   },
-  appendInitialChild(parentInstance: Instance, child: Instance | TextInstance) {
-    throw new Error("Function not implemented.");
+  shouldSetTextContent(type) {
+    return false;
   },
-  finalizeInitialChildren(
-    instance: Instance,
-    type: Type,
-    props: Props,
-    rootContainer: Container,
-    hostContext: HostContext
-  ) {
-    throw new Error("Function not implemented.");
-  },
-  prepareUpdate(
-    instance: Instance,
-    type: Type,
-    oldProps: Props,
-    newProps: Props,
-    rootContainer: Container,
-    hostContext: HostContext
-  ) {
-    throw new Error("Function not implemented.");
-  },
-  shouldSetTextContent(type: Type, props: Props) {
-    return true;
-  },
-  getRootHostContext(rootContainer: Container) {
+  getRootHostContext() {
+    // 必要なければnullを返す
     return null;
   },
-  getChildHostContext(
-    parentHostContext: HostContext,
-    _type: Type,
-    _rootContainer: Container
-  ) {
+  getChildHostContext(parentHostContext) {
+    // 必要なければparentHostContextを返す
     return parentHostContext;
   },
-  getPublicInstance(instance: Instance | TextInstance) {
-    throw new Error("Function not implemented.");
+  getPublicInstance(instance) {
+    // 必要なければinstanceを返す
+    return instance;
   },
-  prepareForCommit(containerInfo: Container) {
+  prepareForCommit() {
+    // 必要なければnullを返す
     return null;
   },
-  resetAfterCommit(containerInfo: Container) {
-    // noop
+  resetAfterCommit() {
+    // 必要なければ空白
   },
-  preparePortalMount(containerInfo: Container) {
+  preparePortalMount() {
     throw new Error("Function not implemented.");
   },
-  scheduleTimeout(fn: (...args: unknown[]) => unknown, delay?: number) {
+  scheduleTimeout() {
     throw new Error("Function not implemented.");
+  },
+  clearContainer() {
+    // 必要なければ空白
+  },
+  appendChildToContainer(container, child) {
+    container.appendChild(child);
   },
   cancelTimeout: clearTimeout, // clearTimeoutのプロキシ
   noTimeout: -1, // timeoutIDになりえない値
-  isPrimaryRenderer: false, //ok
+  isPrimaryRenderer: true, //ok
   supportsHydration: false, //ok
 };
 const ReactReconcilerInst = ReactReconciler(hostConfig);
 
-export function render(reactElement: any, domElement: any, callback: any) {
-  console.log(arguments);
-  // Create a root Container if it doesnt exist
-  if (!domElement._rootContainer) {
-    // @ts-ignore
-    domElement._rootContainer = ReactReconcilerInst.createContainer(
-      domElement,
-      false
-    );
-  }
-
-  // update the root Container
-  return ReactReconcilerInst.updateContainer(
-    reactElement,
-    domElement._rootContainer,
-    null,
-    callback
+export function render(target: any) {
+  const containerInfo = new Node("root");
+  const container = ReactReconcilerInst.createContainer(
+    containerInfo,
+    0,
+    false,
+    null
+  );
+  return ReactReconcilerInst.updateContainer(target, container, null, () =>
+    console.log(containerInfo)
   );
 }
