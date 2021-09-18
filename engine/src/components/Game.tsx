@@ -19,10 +19,21 @@ function useWindowSize() {
   return size;
 }
 
+function Test() {
+  const [text, setText] = useState("test");
+  console.log(text);
+  useEffect(() => {
+    setTimeout(() => {
+      setText("1s passed");
+    }, 1000);
+  }, []);
+  return <Text>{text}</Text>;
+}
+
 export function Game() {
   const [width, height] = useWindowSize();
   useEffect(() => {
-    render(<Text>test</Text>);
+    render(<Test />);
   }, []);
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>

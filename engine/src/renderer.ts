@@ -19,6 +19,13 @@ class Node {
   appendChild(child: Node | string) {
     this.children.push(child);
   }
+  removeChild(child: Node | string) {
+    if (typeof child == "string") {
+      this.children = [];
+    } else {
+      this.children = this.children.filter((item) => item !== child);
+    }
+  }
 }
 
 type HostConfig = ReactReconciler.HostConfig<
@@ -55,7 +62,7 @@ const hostConfig: HostConfig = {
     return false;
   },
   prepareUpdate() {
-    throw new Error("Function not implemented.");
+    return null;
   },
   shouldSetTextContent(type) {
     return false;
@@ -91,22 +98,24 @@ const hostConfig: HostConfig = {
   appendChildToContainer(container, child) {
     container.appendChild(child);
   },
+  removeChildFromContainer(container, child) {
+    container.removeChild(child);
+  },
+  commitTextUpdate(textInstance, oldText, newText) {
+    textInstance = newText;
+  },
   cancelTimeout: clearTimeout, // clearTimeoutのプロキシ
   noTimeout: -1, // timeoutIDになりえない値
   isPrimaryRenderer: true, //ok
   supportsHydration: false, //ok
 };
-const ReactReconcilerInst = ReactReconciler(hostConfig);
+
+const ADVXFiber = ReactReconciler(hostConfig);
 
 export function render(target: any) {
   const containerInfo = new Node("root");
-  const container = ReactReconcilerInst.createContainer(
-    containerInfo,
-    0,
-    false,
-    null
-  );
-  return ReactReconcilerInst.updateContainer(target, container, null, () =>
-    console.log(containerInfo)
-  );
+  const container = ADVXFiber.createContainer(containerInfo, 0, false, null);
+  ADVXFiber.updateContainer(target, container, null, () => {
+    console.log(containerInfo);
+  });
 }
