@@ -2,6 +2,11 @@ import React, { ReactPropTypes, useEffect, useRef, useState } from "react";
 import { Stage, Container, Text, Graphics } from "@inlet/react-pixi";
 import { TextStyle } from "@pixi/text";
 import { render } from "../renderer";
+import {
+  SenarioContext,
+  SenarioProvider,
+  useSenario,
+} from "../hooks/useSenario";
 
 function useWindowSize() {
   const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
@@ -29,16 +34,6 @@ function Test() {
   );
 }
 
-function useText(texts: string[]): [string, () => void] {
-  const [currentText, setCurrentText] = useState(texts[0]);
-  const index = useRef(0);
-  const nextText = () => {
-    index.current += 1;
-    setCurrentText(texts[index.current]);
-  };
-  return [currentText, nextText];
-}
-
 type MessageWindowProps = {
   width: number;
   height: number;
@@ -63,20 +58,31 @@ function MessageWindow(props: MessageWindowProps) {
   );
 }
 
-export function Game() {
+function Display() {
   const [width, height] = useWindowSize();
-  const [text, nextText] = useText(["first text", "second text"]);
+  const senario = useSenario();
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>
-        <Text text={text} style={new TextStyle({ fill: "#fff" })} />
+        <Text
+          text={senario.currentText}
+          style={new TextStyle({ fill: "#fff" })}
+        />
         <MessageWindow
           width={width}
           height={height * 0.3}
           interactive={true}
-          pointerdown={() => nextText()}
+          pointerdown={() => senario.nextText()}
         />
       </Container>
     </Stage>
+  );
+}
+
+export function Game() {
+  return (
+    <SenarioProvider>
+      <Display />
+    </SenarioProvider>
   );
 }
