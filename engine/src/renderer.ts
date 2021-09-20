@@ -49,7 +49,6 @@ const hostConfig: HostConfig = {
   supportsMutation: true, //ok
   supportsPersistence: false,
   createInstance(type) {
-    console.log(arguments);
     return new Node(type);
   },
   createTextInstance(text) {
