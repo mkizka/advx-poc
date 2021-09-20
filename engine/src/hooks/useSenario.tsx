@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useContext } from "react";
 
 export const SenarioContext = React.createContext<{
   currentText: string;
