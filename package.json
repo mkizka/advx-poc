@@ -1,7 +1,15 @@
 {
   "private": true,
+  "scripts": {
+    "dev:engine": "yarn workspace @advx/engine dev",
+    "dev:playground": "yarn workspace @advx/playground dev",
+    "dev": "run-p dev:engine dev:playground"
+  },
   "workspaces": [
     "engine",
     "playground"
-  ]
+  ],
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
 }
