@@ -49,6 +49,7 @@ const hostConfig: HostConfig = {
   supportsMutation: true, //ok
   supportsPersistence: false,
   createInstance(type) {
+    console.log(arguments);
     return new Node(type);
   },
   createTextInstance(text) {
@@ -106,7 +107,7 @@ const hostConfig: HostConfig = {
   },
   cancelTimeout: clearTimeout, // clearTimeoutのプロキシ
   noTimeout: -1, // timeoutIDになりえない値
-  isPrimaryRenderer: true, //ok
+  isPrimaryRenderer: false, //ok
   supportsHydration: false, //ok
 };
 

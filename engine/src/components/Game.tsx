@@ -1,12 +1,13 @@
-import React, { ReactPropTypes, useEffect, useRef, useState } from "react";
-import { Stage, Container, Text, Graphics } from "@inlet/react-pixi";
-import { TextStyle } from "@pixi/text";
-import { render } from "../renderer";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  SenarioContext,
-  SenarioProvider,
-  useSenario,
-} from "../hooks/useSenario";
+  Stage,
+  Container,
+  Text as PixiText,
+  Graphics,
+} from "@inlet/react-pixi";
+import { render } from "../renderer";
+import { SenarioContext, useSenario } from "../hooks/useSenario";
+import { useContextBridge } from "../hooks/useContextBridge";
 
 function useWindowSize() {
   const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
@@ -22,16 +23,6 @@ function useWindowSize() {
     };
   }, []);
   return size;
-}
-
-function Test() {
-  const String = "string";
-  return (
-    <Text>
-      te<Text>s</Text>t{/* @ts-ignore */}
-      <String />
-    </Text>
-  );
 }
 
 type MessageWindowProps = {
@@ -64,10 +55,7 @@ function Display() {
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>
-        <Text
-          text={senario.currentText}
-          style={new TextStyle({ fill: "#fff" })}
-        />
+        <PixiText text={senario.currentText} style={{ fill: "#fff" }} />
         <MessageWindow
           width={width}
           height={height * 0.3}
@@ -79,10 +67,38 @@ function Display() {
   );
 }
 
-export function Game() {
+export type GameProps = {
+  children: React.ReactNode;
+};
+
+function useText(texts: string[]): [string, () => void] {
+  const [currentText, setCurrentText] = useState(texts[0]);
+  const index = useRef(0);
+  const nextText = () => {
+    index.current += 1;
+    setCurrentText(texts[index.current]);
+  };
+  return [currentText, nextText];
+}
+
+type SenarioRendererProps = {
+  children: React.ReactNode;
+};
+
+function SenarioRenderer({ children }: SenarioRendererProps) {
+  const ContextBridge = useContextBridge(SenarioContext);
+  useEffect(() => {
+    render(<ContextBridge>{children}</ContextBridge>);
+  }, []);
+  return null;
+}
+
+export function Game({ children }: GameProps) {
+  const [currentText, nextText] = useText(["first", "second"]);
   return (
-    <SenarioProvider>
+    <SenarioContext.Provider value={{ currentText, nextText }}>
       <Display />
-    </SenarioProvider>
+      <SenarioRenderer>{children}</SenarioRenderer>
+    </SenarioContext.Provider>
   );
 }
