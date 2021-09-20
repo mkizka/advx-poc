@@ -2,8 +2,9 @@
   "private": true,
   "scripts": {
     "dev:engine": "yarn workspace @advx/engine dev",
+    "build:engine": "yarn workspace @advx/engine build",
     "dev:playground": "yarn workspace @advx/playground dev",
-    "dev": "run-p dev:engine dev:playground"
+    "dev": "yarn build:engine && run-p dev:engine dev:playground"
   },
   "workspaces": [
     "engine",
