@@ -112,10 +112,10 @@ const hostConfig: HostConfig = {
 
 const ADVXFiber = ReactReconciler(hostConfig);
 
-export function render(target: any) {
+export function render(target: any, callback?: (root: Node) => void) {
   const containerInfo = new Node("root");
   const container = ADVXFiber.createContainer(containerInfo, 0, false, null);
   ADVXFiber.updateContainer(target, container, null, () => {
-    console.log(containerInfo);
+    callback(containerInfo);
   });
 }

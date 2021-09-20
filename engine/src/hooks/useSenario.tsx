@@ -4,7 +4,9 @@ function useTexts(initialState: string[]) {
   const [texts, setTexts] = useState(initialState);
   const [index, setIndex] = useState(0);
   const nextText = () => {
-    setIndex(index + 1);
+    if (index < texts.length - 1) {
+      setIndex(index + 1);
+    }
   };
   return {
     currentText: texts[index],
