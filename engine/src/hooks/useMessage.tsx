@@ -15,20 +15,20 @@ function useTexts(initialState: string[]) {
   };
 }
 
-export const SenarioContext =
+export const MessageContext =
   React.createContext<ReturnType<typeof useTexts>>(null);
 
-export type SenarioProviderProps = {
+export type MessageProviderProps = {
   children: React.ReactNode;
 };
 
-export function SenarioProvider({ children }: SenarioProviderProps) {
+export function MessageProvider({ children }: MessageProviderProps) {
   const value = useTexts(["a", "b"]);
   return (
-    <SenarioContext.Provider value={value}>{children}</SenarioContext.Provider>
+    <MessageContext.Provider value={value}>{children}</MessageContext.Provider>
   );
 }
 
-export function useSenario() {
-  return useContext(SenarioContext);
+export function useMessage() {
+  return useContext(MessageContext);
 }

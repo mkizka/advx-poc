@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useContextBridge } from "../hooks/useContextBridge";
-import { SenarioContext, useSenario } from "../hooks/useSenario";
+import { MessageContext, useMessage } from "../hooks/useMessage";
 import { render } from "../renderer";
 
 export type SenarioRendererProps = {
@@ -9,8 +9,8 @@ export type SenarioRendererProps = {
 };
 
 export function SenarioRenderer({ children }: SenarioRendererProps) {
-  const ContextBridge = useContextBridge(SenarioContext);
-  const senario = useSenario();
+  const ContextBridge = useContextBridge(MessageContext);
+  const senario = useMessage();
   useEffect(() => {
     render(<ContextBridge>{children}</ContextBridge>, (root) => {
       console.log(root);

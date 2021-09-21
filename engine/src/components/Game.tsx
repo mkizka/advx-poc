@@ -1,5 +1,5 @@
 import React from "react";
-import { SenarioProvider } from "../hooks/useSenario";
+import { MessageProvider } from "../hooks/useMessage";
 import { Screen } from "./Screen";
 import { SenarioRenderer } from "./SenarioRenderer";
 
@@ -9,9 +9,9 @@ export type GameProps = {
 
 export function Game({ children }: GameProps) {
   return (
-    <SenarioProvider>
+    <MessageProvider>
       <Screen />
       <SenarioRenderer>{children}</SenarioRenderer>
-    </SenarioProvider>
+    </MessageProvider>
   );
 }

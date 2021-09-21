@@ -1,12 +1,12 @@
 import React from "react";
 import { Stage, Container, Text } from "@inlet/react-pixi";
-import { useSenario } from "../hooks/useSenario";
+import { useMessage } from "../hooks/useMessage";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { MessageWindow } from "./MessageWindow";
 
 export function Screen() {
   const [width, height] = useWindowSize();
-  const senario = useSenario();
+  const senario = useMessage();
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>
