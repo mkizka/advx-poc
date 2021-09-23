@@ -6,16 +6,16 @@ import { MessageWindow } from "./MessageWindow";
 
 export function Screen() {
   const [width, height] = useWindowSize();
-  const senario = useMessage();
+  const message = useMessage();
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>
-        <Text text={senario.currentText} style={{ fill: "#fff" }} />
+        <Text text={message.currentText} style={{ fill: "#fff" }} />
         <MessageWindow
           width={width}
           height={height * 0.3}
           interactive={true}
-          pointerdown={() => senario.nextText()}
+          pointerdown={() => message.nextText()}
         />
       </Container>
     </Stage>

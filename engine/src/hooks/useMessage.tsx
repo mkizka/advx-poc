@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-function useTexts(initialState: string[]) {
+function _useMessage(initialState: string[]) {
   const [texts, setTexts] = useState(initialState);
   const [index, setIndex] = useState(0);
   const nextText = () => {
@@ -16,14 +16,14 @@ function useTexts(initialState: string[]) {
 }
 
 export const MessageContext =
-  React.createContext<ReturnType<typeof useTexts>>(null);
+  React.createContext<ReturnType<typeof _useMessage>>(null);
 
 export type MessageProviderProps = {
   children: React.ReactNode;
 };
 
 export function MessageProvider({ children }: MessageProviderProps) {
-  const value = useTexts(["a", "b"]);
+  const value = _useMessage(["a", "b"]);
   return (
     <MessageContext.Provider value={value}>{children}</MessageContext.Provider>
   );
