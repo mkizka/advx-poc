@@ -10,12 +10,18 @@ export function Screen() {
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>
-        <Text text={message.currentText} style={{ fill: "#fff" }} />
+        {message.currentItems.map((item, i) => (
+          <Text
+            key={i}
+            text={item.text}
+            style={{ fill: item.props?.color || "#fff" }}
+          />
+        ))}
         <MessageWindow
           width={width}
           height={height * 0.3}
           interactive={true}
-          pointerdown={() => message.nextText()}
+          pointerdown={() => message.next()}
         />
       </Container>
     </Stage>

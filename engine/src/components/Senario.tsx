@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useMessage } from "../hooks/useMessage";
 
 export type SenarioProps = {
@@ -22,7 +22,7 @@ function getSenario(children: React.ReactNode) {
         // @ts-ignore
         result.push({ type: textChild.type.name, text, props });
       } else {
-        result.push({ type: "plain", text: `${textChild}` });
+        result.push({ type: "Plain", text: `${textChild}` });
       }
       return result;
     }, []);
@@ -32,6 +32,8 @@ function getSenario(children: React.ReactNode) {
 export function Senario({ children }: SenarioProps) {
   const message = useMessage();
   console.log(children);
-  console.log(getSenario(children));
+  useEffect(() => {
+    message.setMessages(getSenario(children));
+  }, [children]);
   return <>{children}</>;
 }

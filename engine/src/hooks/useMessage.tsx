@@ -1,17 +1,24 @@
 import React, { useContext, useState } from "react";
 
-function _useMessage(initialState: string[]) {
-  const [texts, setTexts] = useState(initialState);
+type MessageItem = {
+  type: string;
+  text: string;
+  props?: any;
+};
+
+function _useMessage() {
+  const [messages, setMessages] = useState<MessageItem[][]>(null);
   const [index, setIndex] = useState(0);
-  const nextText = () => {
-    if (index < texts.length - 1) {
+  const currentItems = messages != null ? messages[index] : [];
+  const next = () => {
+    if (index < messages.length - 1) {
       setIndex(index + 1);
     }
   };
   return {
-    currentText: texts[index],
-    nextText,
-    setTexts,
+    currentItems,
+    next,
+    setMessages,
   };
 }
 
@@ -23,7 +30,7 @@ export type MessageProviderProps = {
 };
 
 export function MessageProvider({ children }: MessageProviderProps) {
-  const value = _useMessage(["a", "b"]);
+  const value = _useMessage();
   return (
     <MessageContext.Provider value={value}>{children}</MessageContext.Provider>
   );
