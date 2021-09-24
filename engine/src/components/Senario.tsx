@@ -31,9 +31,8 @@ function getSenario(children: React.ReactNode) {
 
 export function Senario({ children }: SenarioProps) {
   const message = useMessage();
-  console.log(children);
   useEffect(() => {
-    message.setMessages(getSenario(children));
+    //message.setMessages(getSenario(children));
   }, [children]);
   return <>{children}</>;
 }
