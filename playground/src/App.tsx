@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Game, Senario, Text } from "@advx/engine";
+import React from "react";
+import { Game, Senario, Style, Text } from "@advx/engine";
 import "./App.css";
 
 function App() {
-  const [texts, setTexts] = useState(["a", "b"]);
-  useEffect(() => {
-    setTimeout(() => {
-      console.log("changed");
-      setTexts(["c", "d", "e"]);
-    }, 2000);
-  }, []);
   return (
     <Game>
       <Senario>
-        {texts.map((text, i) => (
-          <Text key={i}>{text}</Text>
-        ))}
+        <Text>テキスト1</Text>
+        <Text>テキスト2</Text>
+        <Text>テキスト3</Text>
+        <Text>
+          <Style color="red">色付き</Style>テキスト
+        </Text>
       </Senario>
     </Game>
   );

@@ -1,18 +1,37 @@
 import React from "react";
 import { useMessage } from "../hooks/useMessage";
-import { Text } from "./Text";
 
 export type SenarioProps = {
   children: React.ReactNode;
 };
 
+type SenarioItem = {
+  type: string;
+  text: string;
+  props?: object;
+};
+
+function getSenario(children: React.ReactNode) {
+  const texts = React.Children.toArray(children);
+  return texts.map((textElement) => {
+    if (!React.isValidElement(textElement)) return null;
+    const textChildren = React.Children.toArray(textElement.props.children);
+    return textChildren.reduce<SenarioItem[]>((result, textChild) => {
+      if (React.isValidElement(textChild)) {
+        const { children: text, ...props } = textChild.props;
+        // @ts-ignore
+        result.push({ type: textChild.type.name, text, props });
+      } else {
+        result.push({ type: "plain", text: `${textChild}` });
+      }
+      return result;
+    }, []);
+  });
+}
+
 export function Senario({ children }: SenarioProps) {
   const message = useMessage();
-  const childElements = React.Children.map(children, (child) => {
-    if (!(React.isValidElement(child) && child.type == Text)) {
-      throw new Error("Senarioの子要素はTextである必要があります");
-    }
-  });
-  // TODO: childElementsをJSONにしてmessageに登録
+  console.log(children);
+  console.log(getSenario(children));
   return <>{children}</>;
 }
