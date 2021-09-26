@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { useContextBridge } from "../hooks/useContextBridge";
-import { MessageContext, MessageProvider } from "../hooks/useMessage";
-import { render } from "../renderer";
+import {
+  MessageContext,
+  MessageProvider,
+  useMessage,
+} from "../hooks/useMessage";
+import { render } from "../reconciler/renderer";
 import { Screen } from "./Screen";
 
 export type GameProps = {
@@ -9,9 +13,12 @@ export type GameProps = {
 };
 
 function SenarioRenderer({ children }: GameProps) {
+  const message = useMessage();
   const ContextBridge = useContextBridge(MessageContext);
   useEffect(() => {
-    render(<ContextBridge>{children}</ContextBridge>);
+    render(<ContextBridge>{children}</ContextBridge>, (containerInfo) => {
+      message.setMessages(containerInfo);
+    });
   }, [children]);
   return null;
 }

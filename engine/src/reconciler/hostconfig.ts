@@ -1,72 +1,6 @@
-import ReactReconciler from "react-reconciler";
+import { HostConfig } from "./types";
 
-type SuspenseInstance = any;
-type HydratableInstance = any;
-type PublicInstance = any;
-type HostContext = any;
-type UpdatePayload = any;
-type ChildSet = any;
-type TimeoutHandle = any;
-type NoTimeout = any;
-
-/*
-container = [
-  {
-    type: "Text",
-    texts: [
-      {type: "_text", value: "色なしテキスト"},
-      {type: "Style", value: "色付きテキスト", color: "red"}
-    ],
-  }
-  {
-    type: "Goto",
-    to: "チャプター2"
-  }
-]
-*/
-type ADVXNode = TextNode | StyleTextNode | GotoNode;
-
-type TopLevelNode = TextNode | GotoNode;
-type LowLevelNode = PlainTextNode | StyleTextNode;
-
-type TextNode = {
-  type: "Text";
-  texts: LowLevelNode[];
-};
-
-type PlainTextNode = {
-  type: "Plain";
-  value: string;
-};
-
-type StyleTextNode = {
-  type: "Style";
-  value: string;
-  props: any;
-};
-
-type GotoNode = {
-  type: "Goto";
-  to: string;
-};
-
-type HostConfig = ReactReconciler.HostConfig<
-  ADVXNode["type"], // Type
-  any, // Props
-  TopLevelNode[], // Container
-  ADVXNode, // Instance
-  PlainTextNode, // TextInstance
-  SuspenseInstance,
-  HydratableInstance,
-  PublicInstance,
-  HostContext,
-  UpdatePayload,
-  ChildSet,
-  TimeoutHandle,
-  NoTimeout
->;
-
-const hostConfig: HostConfig = {
+export const hostConfig: HostConfig = {
   now: Date.now,
   supportsMutation: true, //ok
   supportsPersistence: false,
@@ -166,24 +100,3 @@ const hostConfig: HostConfig = {
   isPrimaryRenderer: false, //ok
   supportsHydration: false, //ok
 };
-
-const ADVXFiber = ReactReconciler(hostConfig);
-
-export function render(
-  target: unknown,
-  callback?: (container: TopLevelNode[]) => void
-) {
-  const container = ADVXFiber.createContainer([], 0, false, null);
-  ADVXFiber.updateContainer(target, container, null);
-  window.addEventListener("__ADVX_UPDATE__", () => {
-    callback && callback(container.containerInfo);
-  });
-}
-
-ADVXFiber.injectIntoDevTools({
-  bundleType: 1,
-  rendererPackageName: "@advx/engine",
-  version: "1.0.0",
-  // @ts-ignore
-  findHostInstanceByFiber: ADVXFiber.findHostInstance,
-});

@@ -1,22 +1,17 @@
 import React, { useContext, useState } from "react";
-
-type MessageItem = {
-  type: string;
-  text: string;
-  props?: any;
-};
+import { TopLevelNode } from "../reconciler/types";
 
 function _useMessage() {
-  const [messages, setMessages] = useState<MessageItem[][]>(null);
+  const [messages, setMessages] = useState<TopLevelNode[]>(null);
   const [index, setIndex] = useState(0);
-  const currentItems = messages != null ? messages[index] : [];
+  const currentItem = messages != null ? messages[index] : null;
   const next = () => {
     if (index < messages.length - 1) {
       setIndex(index + 1);
     }
   };
   return {
-    currentItems,
+    currentItem,
     next,
     setMessages,
   };
