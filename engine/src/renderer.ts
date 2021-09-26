@@ -1,5 +1,4 @@
 import ReactReconciler from "react-reconciler";
-import pkg from "../package.json";
 
 type SuspenseInstance = any;
 type HydratableInstance = any;
@@ -149,14 +148,15 @@ const hostConfig: HostConfig = {
     container.push(child);
   },
   removeChildFromContainer(container, child) {
-    container.filter((item) => item !== child);
+    const index = container.indexOf(child);
+    container = container.splice(index, 1);
   },
   insertInContainerBefore(container, child, beforeChild) {
     if (child.type == "Plain" || child.type == "Style") {
       throw new Error("文字列やStyle要素を最上位の要素には出来ません");
     }
-    const beforeChildIndex = container.indexOf(beforeChild);
-    container.splice(beforeChildIndex, 0, child);
+    const index = container.indexOf(beforeChild);
+    container = container.splice(index - 1, 0, child);
   },
   commitTextUpdate(node, _, newText) {
     node.value = newText;
@@ -173,15 +173,14 @@ export function render(target: any, callback?: (root: Node) => void) {
   const container = ADVXFiber.createContainer([], 0, false, null);
   ADVXFiber.updateContainer(target, container, null);
   setInterval(() => {
-    console.log(container.containerInfo);
+    console.log(JSON.stringify(container.containerInfo, null, 2));
   }, 2000);
 }
 
 ADVXFiber.injectIntoDevTools({
-  // @ts-ignore
-  bundleType: process.env.NODE_ENV !== "production" ? 1 : 0,
-  version: pkg.version,
-  rendererPackageName: pkg.name,
+  bundleType: 1,
+  rendererPackageName: "@advx/engine",
+  version: "1.0.0",
   // @ts-ignore
   findHostInstanceByFiber: ADVXFiber.findHostInstance,
 });
