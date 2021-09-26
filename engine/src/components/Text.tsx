@@ -4,9 +4,9 @@ export type TextProps = {
   children: React.ReactNode;
 };
 
-const Texta = "Texta";
+const TextElement = "Text";
 
 export function Text({ children }: TextProps) {
   // @ts-ignore
-  return <Texta>{children}</Texta>;
+  return <TextElement>{children}</TextElement>;
 }

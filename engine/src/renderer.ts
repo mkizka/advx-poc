@@ -1,8 +1,5 @@
 import ReactReconciler from "react-reconciler";
 
-type Type = string;
-type Props = any;
-type TextInstance = string;
 type SuspenseInstance = any;
 type HydratableInstance = any;
 type PublicInstance = any;
@@ -12,28 +9,52 @@ type ChildSet = any;
 type TimeoutHandle = any;
 type NoTimeout = any;
 
-class Node {
-  constructor(public type: string, public children?: (Node | string)[]) {
-    this.children = children || [];
+/*
+container = [
+  {
+    type: "Text",
+    texts: [
+      {type: "_text", value: "色なしテキスト"},
+      {type: "Style", value: "色付きテキスト", color: "red"}
+    ],
   }
-  appendChild(child: Node | string) {
-    this.children.push(child);
+  {
+    type: "Goto",
+    to: "チャプター2"
   }
-  removeChild(child: Node | string) {
-    if (typeof child == "string") {
-      this.children = [];
-    } else {
-      this.children = this.children.filter((item) => item !== child);
-    }
-  }
-}
+]
+*/
+type ADVXNode = TextNode | PlainTextNode | StyleTextNode | GotoNode;
+
+type TopLevelNode = TextNode | GotoNode;
+type LowLevelNode = PlainTextNode | StyleTextNode;
+
+type TextNode = {
+  type: "Text";
+  texts: LowLevelNode[];
+};
+
+type PlainTextNode = {
+  type: "Plain";
+  value: string;
+};
+
+type StyleTextNode = {
+  type: "Style";
+  value: string;
+};
+
+type GotoNode = {
+  type: "Goto";
+  to: string;
+};
 
 type HostConfig = ReactReconciler.HostConfig<
-  Type,
-  Props,
-  Node,
-  Node,
-  TextInstance,
+  ADVXNode["type"], // Type
+  any, // Props
+  TopLevelNode[], // Container
+  ADVXNode, // Instance
+  PlainTextNode, // TextInstance
   SuspenseInstance,
   HydratableInstance,
   PublicInstance,
@@ -48,24 +69,48 @@ const hostConfig: HostConfig = {
   now: Date.now,
   supportsMutation: true, //ok
   supportsPersistence: false,
-  createInstance(type) {
-    return new Node(type);
+  createInstance(type, props) {
+    const { children, _props } = props;
+    switch (type) {
+      case "Style":
+        console.assert(
+          typeof children == "string",
+          "Styleの子要素は文字列である必要があります"
+        );
+        return { type, value: children, ..._props };
+      case "Text":
+        return { type, texts: [], ..._props };
+      default:
+        throw new Error(`<${type} />はサポートしていません`);
+    }
   },
   createTextInstance(text) {
-    return text;
+    return { type: "Plain", value: text };
   },
-  appendInitialChild(parentInstance, child) {
-    parentInstance.appendChild(child);
+  appendInitialChild(node, child) {
+    if (
+      node.type == "Text" &&
+      (child.type == "Plain" || child.type == "Style")
+    ) {
+      node.texts.push(child);
+    } else {
+      throw new Error(
+        "appendInitialChildが未対応な状況で呼ばれました" +
+          JSON.stringify(arguments)
+      );
+    }
   },
   finalizeInitialChildren() {
     // 必要なければfalseを返す
     return false;
   },
   prepareUpdate() {
+    // 必要なければnullを返す？
     return null;
   },
-  shouldSetTextContent(type) {
-    return false;
+  shouldSetTextContent(type, props) {
+    // trueなら子要素に対してcreateTextInstanceやappendInitialChildが呼ばれない？
+    return type == "Style";
   },
   getRootHostContext() {
     // 必要なければnullを返す
@@ -96,13 +141,16 @@ const hostConfig: HostConfig = {
     // 必要なければ空白
   },
   appendChildToContainer(container, child) {
-    container.appendChild(child);
+    if (child.type == "Plain" || child.type == "Style") {
+      throw new Error("文字列やStyle要素を最上位の要素には出来ません");
+    }
+    container.push(child);
   },
   removeChildFromContainer(container, child) {
-    container.removeChild(child);
+    container.filter((item) => item !== child);
   },
-  commitTextUpdate(textInstance, oldText, newText) {
-    textInstance = newText;
+  commitTextUpdate(node, _, newText) {
+    node.value = newText;
   },
   cancelTimeout: clearTimeout, // clearTimeoutのプロキシ
   noTimeout: -1, // timeoutIDになりえない値
@@ -113,8 +161,7 @@ const hostConfig: HostConfig = {
 const ADVXFiber = ReactReconciler(hostConfig);
 
 export function render(target: any, callback?: (root: Node) => void) {
-  const containerInfo = new Node("root");
-  const container = ADVXFiber.createContainer(containerInfo, 0, false, null);
+  const container = ADVXFiber.createContainer([], 0, false, null);
   ADVXFiber.updateContainer(target, container, null);
   setInterval(() => {
     console.log(container);

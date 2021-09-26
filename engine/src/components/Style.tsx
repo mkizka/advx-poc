@@ -5,6 +5,9 @@ export type StyleProps = {
   color?: string;
 };
 
+const StyleElement = "Style";
+
 export function Style({ children }: StyleProps) {
-  return null;
+  // @ts-ignore
+  return <StyleElement>{children}</StyleElement>;
 }
