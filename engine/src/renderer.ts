@@ -126,7 +126,7 @@ const hostConfig: HostConfig = {
     return instance;
   },
   prepareForCommit() {
-    // 必要なければnullを返す
+    window.dispatchEvent(new CustomEvent("__ADVX_UPDATE__"));
     return null;
   },
   resetAfterCommit() {
@@ -169,12 +169,15 @@ const hostConfig: HostConfig = {
 
 const ADVXFiber = ReactReconciler(hostConfig);
 
-export function render(target: any, callback?: (root: Node) => void) {
+export function render(
+  target: unknown,
+  callback?: (container: TopLevelNode[]) => void
+) {
   const container = ADVXFiber.createContainer([], 0, false, null);
   ADVXFiber.updateContainer(target, container, null);
-  setInterval(() => {
-    console.log(JSON.stringify(container.containerInfo, null, 2));
-  }, 2000);
+  window.addEventListener("__ADVX_UPDATE__", () => {
+    callback && callback(container.containerInfo);
+  });
 }
 
 ADVXFiber.injectIntoDevTools({

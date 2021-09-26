@@ -6,7 +6,6 @@ function Chapter() {
   const [a, b] = useState(0);
   useEffect(() => {
     const c = setInterval(() => {
-      console.log("updated");
       b(a + 1);
     }, 2000);
     return () => clearInterval(c);
