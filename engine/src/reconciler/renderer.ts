@@ -9,10 +9,15 @@ export function render(
   callback?: (container: TopLevelNode[]) => void
 ) {
   const container = ADVXFiber.createContainer([], 0, false, null);
-  ADVXFiber.updateContainer(target, container, null);
-  window.addEventListener("__ADVX_UPDATE__", () => {
+  const handleUpdate = () => {
     callback && callback(container.containerInfo);
-  });
+  };
+  window.addEventListener("__ADVX_UPDATE__", handleUpdate);
+  ADVXFiber.updateContainer(target, container, null);
+  return () => {
+    window.removeEventListener("__ADVX_UPDATE__", handleUpdate);
+    ADVXFiber.updateContainer(null, container, null);
+  };
 }
 
 ADVXFiber.injectIntoDevTools({

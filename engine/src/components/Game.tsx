@@ -16,9 +16,13 @@ function SenarioRenderer({ children }: GameProps) {
   const message = useMessage();
   const ContextBridge = useContextBridge(MessageContext);
   useEffect(() => {
-    render(<ContextBridge>{children}</ContextBridge>, (containerInfo) => {
-      message.setMessages(containerInfo);
-    });
+    const unmount = render(
+      <ContextBridge>{children}</ContextBridge>,
+      (containerInfo) => {
+        message.setMessages(containerInfo);
+      }
+    );
+    return () => unmount();
   }, [children]);
   return null;
 }

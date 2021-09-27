@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Game, Senario, Style, Text } from "@advx/engine";
 import "./App.css";
 
 function Chapter() {
-  const [a, b] = useState(0);
-  useEffect(() => {
-    const c = setInterval(() => {
-      b(a + 1);
-    }, 2000);
-    return () => clearInterval(c);
-  });
   return (
     <Senario>
-      {Array.from({ length: (a % 2) + 1 }).map((_, i) => (
-        <Text key={i}>{`プレーンテキスト${i}`}</Text>
-      ))}
+      <Text>{`プレーンテキスト1`}</Text>
+      <Text>{`プレーンテキスト2`}</Text>
+      <Text>{`プレーンテキスト3`}</Text>
       <Text>
         <Style color="red">色付き</Style>テキスト
       </Text>
