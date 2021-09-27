@@ -60,11 +60,10 @@ export const hostConfig: HostConfig = {
     return instance;
   },
   prepareForCommit() {
-    window.dispatchEvent(new CustomEvent("__ADVX_UPDATE__"));
     return null;
   },
   resetAfterCommit() {
-    // 必要なければ空白
+    window.dispatchEvent(new CustomEvent("__ADVX_UPDATE__"));
   },
   preparePortalMount() {
     throw new Error("Function not implemented.");
@@ -90,7 +89,7 @@ export const hostConfig: HostConfig = {
       throw new Error("文字列やStyle要素を最上位の要素には出来ません");
     }
     const index = container.indexOf(beforeChild);
-    container = container.splice(index - 1, 0, child);
+    container = container.splice(index, 0, child);
   },
   commitTextUpdate(node, _, newText) {
     node.value = newText;

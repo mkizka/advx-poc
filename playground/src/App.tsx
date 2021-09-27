@@ -6,8 +6,7 @@ function Senario1() {
   const history = useHistory();
   useEffect(() => {
     setTimeout(() => {
-      history.push("/2");
-      console.log(history);
+      history.push("/senario2");
     }, 2000);
   }, []);
   return (
@@ -32,8 +31,8 @@ function Senario2() {
 function App() {
   return (
     <Game>
-      <Chapter path="/" component={Senario1} />
-      <Chapter path="/2" component={Senario2} />
+      <Chapter exact path="/" component={Senario1} />
+      <Chapter exact path="/senario2" component={Senario2} />
     </Game>
   );
 }
