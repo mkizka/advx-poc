@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { Game, Senario, Style, Text, Chapter, useHistory } from "@advx/engine";
+import { Game, Senario, Style, Text, Chapter, useChapter } from "@advx/engine";
 import "./App.css";
 
 function Senario1() {
-  const history = useHistory();
+  const chapter = useChapter();
   useEffect(() => {
     setTimeout(() => {
-      history.push("/senario2");
+      chapter.goto("senario2");
     }, 2000);
   }, []);
   return (
@@ -31,8 +31,8 @@ function Senario2() {
 function App() {
   return (
     <Game>
-      <Chapter exact path="/" component={Senario1} />
-      <Chapter exact path="/senario2" component={Senario2} />
+      <Chapter senario={Senario1} />
+      <Chapter name="senario2" senario={Senario2} />
     </Game>
   );
 }
