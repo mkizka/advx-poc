@@ -1,8 +1,15 @@
-import React from "react";
-import { Game, Senario, Style, Text } from "@advx/engine";
+import React, { useEffect } from "react";
+import { Game, Senario, Style, Text, Chapter, useHistory } from "@advx/engine";
 import "./App.css";
 
-function Chapter() {
+function Senario1() {
+  const history = useHistory();
+  useEffect(() => {
+    setTimeout(() => {
+      history.push("/2");
+      console.log(history);
+    }, 2000);
+  }, []);
   return (
     <Senario>
       <Text>{`プレーンテキスト1`}</Text>
@@ -14,10 +21,19 @@ function Chapter() {
     </Senario>
   );
 }
+function Senario2() {
+  return (
+    <Senario>
+      <Text>{`プレーンテキスト123`}</Text>
+    </Senario>
+  );
+}
+
 function App() {
   return (
     <Game>
-      <Chapter />
+      <Chapter path="/" component={Senario1} />
+      <Chapter path="/2" component={Senario2} />
     </Game>
   );
 }
