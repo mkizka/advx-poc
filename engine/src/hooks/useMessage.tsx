@@ -6,6 +6,10 @@ function _useMessage() {
   const [index, setIndex] = useState(0);
   const currentItem = messages != null ? messages[index] : null;
   const next = () => {
+    if (messages == null) {
+      console.warn("messagesがnullの時にnext()を呼び出しています");
+      return;
+    }
     if (index < messages.length - 1) {
       setIndex(index + 1);
     }

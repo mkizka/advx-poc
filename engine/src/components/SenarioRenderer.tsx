@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { render } from "../reconciler/renderer";
-import { useContextBridge } from "../hooks/useContextBridge";
-import { useMessage, MessageContext } from "../hooks/useMessage";
+import { useMessage } from "../hooks/useMessage";
 import { MemoryRouter, Switch } from "react-router";
 
 export type SenarioRendererProps = {
@@ -9,18 +8,15 @@ export type SenarioRendererProps = {
 };
 
 export function SenarioRenderer({ children }: SenarioRendererProps) {
-  const ContextBridge = useContextBridge(MessageContext);
   const message = useMessage();
   useEffect(() => {
     const unmount = render(
-      <ContextBridge>
-        <MemoryRouter>
-          <Switch>{children}</Switch>
-        </MemoryRouter>
-      </ContextBridge>,
+      <MemoryRouter>
+        <Switch>{children}</Switch>
+      </MemoryRouter>,
       (containerInfo) => {
         console.log("message updated", JSON.stringify(containerInfo));
-        message.setMessages(containerInfo);
+        message.setMessages([...containerInfo]);
       }
     );
     return () => unmount();
