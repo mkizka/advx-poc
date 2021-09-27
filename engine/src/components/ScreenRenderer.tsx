@@ -4,7 +4,7 @@ import { useMessage } from "../hooks/useMessage";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { MessageWindow } from "./MessageWindow";
 
-export function Screen() {
+export function ScreenRenderer() {
   const [width, height] = useWindowSize();
   const message = useMessage();
   return (
