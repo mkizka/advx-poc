@@ -14,9 +14,11 @@ function _useMessage() {
       setIndex(index + 1);
     }
   };
+  const resetIndex = () => setIndex(0);
   return {
     currentItem,
     next,
+    resetIndex,
     setMessages,
   };
 }

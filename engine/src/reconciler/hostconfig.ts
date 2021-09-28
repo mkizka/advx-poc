@@ -15,6 +15,8 @@ export const hostConfig: HostConfig = {
         return { type, value: children, ..._props };
       case "Text":
         return { type, texts: [], ..._props };
+      case "Goto":
+        return { type, ..._props };
       default:
         throw new Error(`<${type} />はサポートしていません`);
     }

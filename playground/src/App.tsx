@@ -1,14 +1,8 @@
-import React, { useEffect } from "react";
-import { Game, Senario, Style, Text, Chapter, useChapter } from "@advx/engine";
+import React from "react";
+import { Game, Senario, Style, Text, Chapter, Goto } from "@advx/engine";
 import "./App.css";
 
 function Senario1() {
-  const chapter = useChapter();
-  useEffect(() => {
-    setTimeout(() => {
-      chapter.goto("senario2");
-    }, 2000);
-  }, []);
   return (
     <Senario>
       <Text>{`プレーンテキスト1`}</Text>
@@ -17,6 +11,7 @@ function Senario1() {
       <Text>
         <Style color="red">色付き</Style>テキスト
       </Text>
+      <Goto to="senario2" />
     </Senario>
   );
 }

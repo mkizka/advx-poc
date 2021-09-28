@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Stage, Container, Text } from "@inlet/react-pixi";
 import { useMessage } from "../hooks/useMessage";
+import { useChapter } from "../hooks/useChapter";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { MessageWindow } from "./MessageWindow";
 
 export function ScreenRenderer() {
   const [width, height] = useWindowSize();
   const message = useMessage();
+  const chapter = useChapter();
+
+  useEffect(() => {
+    if (message.currentItem?.type == "Goto") {
+      chapter.goto(message.currentItem.to);
+    }
+  }, [message.currentItem]);
+
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>
