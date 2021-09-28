@@ -7,5 +7,5 @@ export type ChapterProps = {
 };
 
 export function Chapter({ name, senario }: ChapterProps) {
-  return <Route exact path={name && `/${name}`} component={senario} />;
+  return <Route exact path={`/${name || ""}`} component={senario} />;
 }

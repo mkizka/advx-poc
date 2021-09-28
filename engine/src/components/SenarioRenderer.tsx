@@ -11,9 +11,7 @@ export function SenarioRenderer({ children }: SenarioRendererProps) {
   const message = useMessage();
   useEffect(() => {
     const unmount = render(
-      <MemoryRouter>
-        <Switch>{children}</Switch>
-      </MemoryRouter>,
+      <MemoryRouter>{children}</MemoryRouter>,
       (containerInfo) => {
         console.log("message updated", JSON.stringify(containerInfo));
         message.setMessages([...containerInfo]);
