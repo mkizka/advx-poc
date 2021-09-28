@@ -15,8 +15,8 @@ container = [
   }
 ]
 */
-export type ADVXNode = TextNode | StyleTextNode | GotoNode;
-export type TopLevelNode = TextNode | GotoNode;
+export type ADVXNode = TextNode | StyleTextNode | ActionNode;
+export type TopLevelNode = TextNode | ActionNode;
 export type LowLevelNode = PlainTextNode | StyleTextNode;
 
 export type TextNode = {
@@ -35,9 +35,9 @@ export type StyleTextNode = {
   props: any;
 };
 
-export type GotoNode = {
-  type: "Goto";
-  to: string;
+export type ActionNode = {
+  type: "Action";
+  action: () => void;
 };
 
 export type HostConfig = ReactReconciler.HostConfig<

@@ -7,7 +7,7 @@ export type StyleProps = {
 
 const StyleElement = "Style";
 
-export function Style({ children }: StyleProps) {
+export function Style({ children, ...props }: StyleProps) {
   // @ts-ignore
-  return <StyleElement>{children}</StyleElement>;
+  return <StyleElement {...props}>{children}</StyleElement>;
 }

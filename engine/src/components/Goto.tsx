@@ -1,12 +1,14 @@
 import React from "react";
+import { useChapter } from "../hooks/useChapter";
 
 export type GotoProps = {
   to: string;
 };
 
-const GotoElement = "Goto";
+const ActionElement = "Action";
 
 export function Goto({ to }: GotoProps) {
+  const chapter = useChapter();
   // @ts-ignore
-  return <GotoElement to={to} />;
+  return <ActionElement action={() => chapter.goto(to)} />;
 }

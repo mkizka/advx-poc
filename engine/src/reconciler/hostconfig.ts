@@ -5,7 +5,7 @@ export const hostConfig: HostConfig = {
   supportsMutation: true, //ok
   supportsPersistence: false,
   createInstance(type, props) {
-    const { children, _props } = props;
+    const { children, ..._props } = props;
     switch (type) {
       case "Style":
         console.assert(
@@ -15,7 +15,7 @@ export const hostConfig: HostConfig = {
         return { type, value: children, ..._props };
       case "Text":
         return { type, texts: [], ..._props };
-      case "Goto":
+      case "Action":
         return { type, ..._props };
       default:
         throw new Error(`<${type} />はサポートしていません`);

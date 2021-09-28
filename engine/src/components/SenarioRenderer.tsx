@@ -1,17 +1,21 @@
 import React, { useEffect } from "react";
 import { render } from "../reconciler/renderer";
-import { useMessage } from "../hooks/useMessage";
-import { MemoryRouter, Switch } from "react-router";
+import { MessageContext, useMessage } from "../hooks/useMessage";
+import { MemoryRouter } from "react-router";
+import { useContextBridge } from "../hooks/useContextBridge";
 
 export type SenarioRendererProps = {
   children: React.ReactNode;
 };
 
 export function SenarioRenderer({ children }: SenarioRendererProps) {
+  const ContextBridge = useContextBridge(MessageContext);
   const message = useMessage();
   useEffect(() => {
     const unmount = render(
-      <MemoryRouter>{children}</MemoryRouter>,
+      <ContextBridge>
+        <MemoryRouter>{children}</MemoryRouter>
+      </ContextBridge>,
       (containerInfo) => {
         console.log("message updated", JSON.stringify(containerInfo));
         message.setMessages([...containerInfo]);
