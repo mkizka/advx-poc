@@ -1,4 +1,5 @@
 import typescript from "rollup-plugin-typescript2";
+import cleaner from "rollup-plugin-cleaner";
 import json from "@rollup/plugin-json";
 
 export default {
@@ -7,5 +8,11 @@ export default {
     dir: "dist",
     format: "esm",
   },
-  plugins: [typescript(), json()],
+  plugins: [
+    cleaner({
+      targets: ["dist"],
+    }),
+    typescript(),
+    json(),
+  ],
 };
