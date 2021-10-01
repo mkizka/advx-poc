@@ -5,9 +5,11 @@ import { useWindowSize } from "../hooks/useWindowSize";
 import { MessageWindow } from "./MessageWindow";
 import { useAnimationFrame } from "../hooks/useAnimationFrame";
 import { LowLevelNode } from "../reconciler/types";
+import { usePrompt } from "../hooks/usePrompt";
 
 export function ScreenRenderer() {
   const [width, height] = useWindowSize();
+  const prompt = usePrompt();
   const message = useMessage();
   const [index, setIndex] = useState(1);
 
@@ -40,6 +42,11 @@ export function ScreenRenderer() {
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>
+        {prompt.isActive && (
+          <Container x={width * 0.3} y={-height * 0.25}>
+            <MessageWindow width={width * 0.4} height={height * 0.2} />
+          </Container>
+        )}
         {message.currentItem?.type == "Text" &&
           message.currentItem.texts.map((text, i) => (
             <Text

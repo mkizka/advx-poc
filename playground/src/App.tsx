@@ -7,6 +7,7 @@ import {
   Chapter,
   useChapter,
   Action,
+  Choice,
 } from "@advx/engine";
 import "./App.css";
 
@@ -16,6 +17,7 @@ function Senario1() {
     <Senario>
       <Text>{`プレーンテキスト1`}</Text>
       <Text>{`プレーンテキスト2`}</Text>
+      <Choice choices={["選択肢1", "選択肢2"]} />
       <Text>{`プレーンテキスト3`}</Text>
       <Text>
         <Style color="red">色付き</Style>テキスト
