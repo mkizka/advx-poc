@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import ReactReconciler from "react-reconciler";
 import { hostConfig } from "./hostconfig";
 import { TopLevelNode } from "./types";
@@ -5,7 +6,7 @@ import { TopLevelNode } from "./types";
 const ADVXFiber = ReactReconciler(hostConfig);
 
 export function render(
-  target: unknown,
+  target: ReactNode,
   callback?: (container: TopLevelNode[]) => void
 ) {
   const container = ADVXFiber.createContainer([], 0, false, null);

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { TopLevelNode } from "../reconciler/types";
 
 function _useMessage() {
-  const [messages, setMessages] = useState<TopLevelNode[]>(null);
+  const [messages, setMessages] = useState<TopLevelNode[] | null>(null);
   const [index, setIndex] = useState(0);
   const currentItem = messages != null ? messages[index] : null;
   const next = () => {
@@ -23,8 +23,9 @@ function _useMessage() {
   };
 }
 
-export const MessageContext =
-  React.createContext<ReturnType<typeof _useMessage>>(null);
+type Message = ReturnType<typeof _useMessage>;
+
+export const MessageContext = React.createContext<Message | null>(null);
 
 export type MessageProviderProps = {
   children: React.ReactNode;

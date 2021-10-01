@@ -14,10 +14,10 @@ export function ScreenRenderer() {
   const [index, setIndex] = useState(1);
 
   useEffect(() => {
-    if (message.currentItem?.type == "Action") {
-      message.currentItem.action();
+    if (message!.currentItem?.type == "Action") {
+      message!.currentItem.action();
     }
-  }, [message.currentItem]);
+  }, [message!.currentItem]);
 
   useAnimationFrame(() => {
     const len = (texts: LowLevelNode[]) => {
@@ -27,8 +27,8 @@ export function ScreenRenderer() {
       }, 0);
     };
     if (
-      message.currentItem?.type == "Text" &&
-      index < len(message.currentItem.texts)
+      message!.currentItem?.type == "Text" &&
+      index < len(message!.currentItem.texts)
     ) {
       setIndex(index + 1);
     }
@@ -36,19 +36,19 @@ export function ScreenRenderer() {
 
   const handleClick = () => {
     setIndex(0);
-    message.next();
+    message!.next();
   };
 
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>
-        {prompt.isActive && (
+        {prompt!.isActive && (
           <Container x={width * 0.3} y={-height * 0.25}>
             <MessageWindow width={width * 0.4} height={height * 0.2} />
           </Container>
         )}
-        {message.currentItem?.type == "Text" &&
-          message.currentItem.texts.map((text, i) => (
+        {message!.currentItem?.type == "Text" &&
+          message!.currentItem.texts.map((text, i) => (
             <Text
               key={i}
               text={text.value.slice(0, index)}

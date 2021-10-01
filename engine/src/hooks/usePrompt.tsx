@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 
 function _usePrompt() {
   const [isActive, setIsActive] = useState(false);
-  const [choices, setChoices] = useState<string[]>(null);
+  const [choices, setChoices] = useState<string[] | null>(null);
   return {
     isActive,
     setIsActive,
@@ -11,8 +11,9 @@ function _usePrompt() {
   };
 }
 
-export const PromptContext =
-  React.createContext<ReturnType<typeof _usePrompt>>(null);
+type Prompt = ReturnType<typeof _usePrompt>;
+
+export const PromptContext = React.createContext<Prompt | null>(null);
 
 export type PromptProviderProps = {
   children: React.ReactNode;
