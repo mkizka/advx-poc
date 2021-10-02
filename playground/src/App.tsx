@@ -19,9 +19,6 @@ function Senario1() {
       <Text>{`プレーンテキスト2`}</Text>
       <Choice choices={["選択肢1", "選択肢2"]} />
       <Text>{`プレーンテキスト3`}</Text>
-      <Text>
-        <Style color="red">色付き</Style>テキスト
-      </Text>
       <Action action={() => chapter.goto("senario2")} />
     </Senario>
   );

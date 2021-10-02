@@ -6,15 +6,12 @@ export const hostConfig: HostConfig = {
   supportsPersistence: false,
   createInstance(type, props) {
     const { children, ..._props } = props;
+    console.log(arguments);
     switch (type) {
-      case "Style":
-        console.assert(
-          typeof children == "string",
-          "Styleの子要素は文字列である必要があります"
-        );
-        return { type, value: children, ..._props };
       case "Text":
-        return { type, texts: [], ..._props };
+        return { type, message: children, ..._props };
+      case "Branch":
+        return { type, senario: children, ..._props };
       case "Action":
         return { type, ..._props };
       default:
@@ -22,20 +19,10 @@ export const hostConfig: HostConfig = {
     }
   },
   createTextInstance(text) {
-    return { type: "Plain", value: text };
+    return text;
   },
-  appendInitialChild(node, child) {
-    if (
-      node.type == "Text" &&
-      (child.type == "Plain" || child.type == "Style")
-    ) {
-      node.texts.push(child);
-    } else {
-      throw new Error(
-        "appendInitialChildが未対応な状況で呼ばれました" +
-          JSON.stringify(arguments)
-      );
-    }
+  appendInitialChild(command, child) {
+    //
   },
   finalizeInitialChildren() {
     // 必要なければfalseを返す
@@ -47,7 +34,7 @@ export const hostConfig: HostConfig = {
   },
   shouldSetTextContent(type, props) {
     // trueなら子要素に対してcreateTextInstanceやappendInitialChildが呼ばれない？
-    return type == "Style";
+    return type == "Text";
   },
   getRootHostContext() {
     // 必要なければnullを返す
@@ -77,8 +64,8 @@ export const hostConfig: HostConfig = {
     // 必要なければ空白
   },
   appendChildToContainer(container, child) {
-    if (child.type == "Plain" || child.type == "Style") {
-      throw new Error("文字列やStyle要素を最上位の要素には出来ません");
+    if (typeof child == "string") {
+      throw new Error("文字列を最上位の要素には出来ません");
     }
     container.push(child);
   },
@@ -87,14 +74,14 @@ export const hostConfig: HostConfig = {
     container = container.splice(index, 1);
   },
   insertInContainerBefore(container, child, beforeChild) {
-    if (child.type == "Plain" || child.type == "Style") {
-      throw new Error("文字列やStyle要素を最上位の要素には出来ません");
+    if (typeof child == "string") {
+      throw new Error("文字列を最上位の要素には出来ません");
     }
     const index = container.indexOf(beforeChild);
     container = container.splice(index, 0, child);
   },
-  commitTextUpdate(node, _, newText) {
-    node.value = newText;
+  commitTextUpdate(text, _, newText) {
+    text = newText;
   },
   cancelTimeout: clearTimeout, // clearTimeoutのプロキシ
   noTimeout: -1, // timeoutIDになりえない値

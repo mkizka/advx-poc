@@ -1,12 +1,11 @@
 import React from "react";
+import { ActionCommand } from "../reconciler/types";
 
-export type ActionProps = {
-  action: () => void;
-};
+export type ActionProps = Omit<ActionCommand, "type">;
 
 const ActionElement = "Action";
 
-export function Action({ action }: ActionProps) {
+export function Action(props: ActionProps) {
   // @ts-ignore
-  return <ActionElement action={action} />;
+  return <ActionElement {...props} />;
 }

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import { TopLevelNode } from "../reconciler/types";
+import { ADVXCommand } from "../reconciler/types";
 
 function _useMessage() {
-  const [messages, setMessages] = useState<TopLevelNode[] | null>(null);
+  const [messages, setMessages] = useState<ADVXCommand[] | null>(null);
   const [index, setIndex] = useState(0);
   const currentItem = messages != null ? messages[index] : null;
   const next = () => {

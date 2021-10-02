@@ -4,7 +4,6 @@ import { useMessage } from "../hooks/useMessage";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { MessageWindow } from "./MessageWindow";
 import { useAnimationFrame } from "../hooks/useAnimationFrame";
-import { LowLevelNode } from "../reconciler/types";
 import { usePrompt } from "../hooks/usePrompt";
 
 export function ScreenRenderer() {
@@ -20,15 +19,9 @@ export function ScreenRenderer() {
   }, [message!.currentItem]);
 
   useAnimationFrame(() => {
-    const len = (texts: LowLevelNode[]) => {
-      return texts.reduce((result, item) => {
-        result += item.value.length;
-        return result;
-      }, 0);
-    };
     if (
       message!.currentItem?.type == "Text" &&
-      index < len(message!.currentItem.texts)
+      index < message!.currentItem.message.length
     ) {
       setIndex(index + 1);
     }
@@ -47,19 +40,16 @@ export function ScreenRenderer() {
             <MessageWindow width={width * 0.4} height={height * 0.2} />
           </Container>
         )}
-        {message!.currentItem?.type == "Text" &&
-          message!.currentItem.texts.map((text, i) => (
-            <Text
-              key={i}
-              text={text.value.slice(0, index)}
-              style={{
-                wordWrap: true,
-                wordWrapWidth: width,
-                breakWords: true,
-                fill: "props" in text ? text.props?.color : "#fff",
-              }}
-            />
-          ))}
+        {message!.currentItem?.type == "Text" && (
+          <Text
+            text={message!.currentItem.message.slice(0, index)}
+            style={{
+              wordWrap: true,
+              wordWrapWidth: width,
+              breakWords: true,
+            }}
+          />
+        )}
         <MessageWindow
           width={width}
           height={height * 0.3}

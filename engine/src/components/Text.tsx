@@ -1,12 +1,11 @@
 import React from "react";
+import { TextCommand } from "../reconciler/types";
 
-export type TextProps = {
-  children: React.ReactNode;
-};
+export type TextProps = Omit<TextCommand, "type">;
 
 const TextElement = "Text";
 
-export function Text({ children }: TextProps) {
+export function Text(props: TextProps) {
   // @ts-ignore
-  return <TextElement>{children}</TextElement>;
+  return <TextElement {...props} />;
 }

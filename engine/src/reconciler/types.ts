@@ -1,51 +1,29 @@
 import ReactReconciler from "react-reconciler";
 
-/*
-container = [
-  {
-    type: "Text",
-    texts: [
-      {type: "_text", value: "色なしテキスト"},
-      {type: "Style", value: "色付きテキスト", color: "red"}
-    ],
-  }
-  {
-    type: "Goto",
-    to: "チャプター2"
-  }
-]
-*/
-export type ADVXNode = TextNode | StyleTextNode | ActionNode;
-export type TopLevelNode = TextNode | ActionNode;
-export type LowLevelNode = PlainTextNode | StyleTextNode;
+export type ADVXCommand = TextCommand | BranchCommand | ActionCommand;
 
-export type TextNode = {
+export type TextCommand = {
   type: "Text";
-  texts: LowLevelNode[];
+  message: string; // いつか部分修飾を出来るようにする
 };
 
-export type PlainTextNode = {
-  type: "Plain";
-  value: string;
+export type BranchCommand = {
+  type: "Branch";
+  if: () => void; // if()が真なら自身をsenario.commandsに置き換える
+  senario: ADVXCommand[];
 };
 
-export type StyleTextNode = {
-  type: "Style";
-  value: string;
-  props: any;
-};
-
-export type ActionNode = {
+export type ActionCommand = {
   type: "Action";
-  action: () => void;
+  action: () => void; // 選択肢の提示などなんらかの処理を実行する
 };
 
 export type HostConfig = ReactReconciler.HostConfig<
-  ADVXNode["type"], // Type
+  ADVXCommand["type"], // Type
   any, // Props
-  TopLevelNode[], // Container
-  ADVXNode, // Instance
-  PlainTextNode, // TextInstance
+  ADVXCommand[], // Container
+  ADVXCommand, // Instance
+  string, // TextInstance
   any,
   any,
   any,
