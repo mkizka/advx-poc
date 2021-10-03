@@ -1,13 +1,13 @@
 import { useHistory } from "react-router";
-import { useMessage } from "./useMessage";
+import { useCommand } from "./useCommand";
 
 export function useChapter() {
-  const message = useMessage();
+  const command = useCommand();
   const history = useHistory();
   return {
     goto: (name: string) => {
       history.push(`/${name}`);
-      message.resetIndex();
+      command.resetIndex();
     },
   };
 }

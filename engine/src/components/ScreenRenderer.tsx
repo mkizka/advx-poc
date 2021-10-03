@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Stage, Container, Text } from "@inlet/react-pixi";
-import { useMessage } from "../hooks/useMessage";
+import { useCommand } from "../hooks/useCommand";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { MessageWindow } from "./MessageWindow";
 import { useAnimationFrame } from "../hooks/useAnimationFrame";
@@ -9,19 +9,19 @@ import { useChoice } from "../hooks/useChoice";
 export function ScreenRenderer() {
   const [width, height] = useWindowSize();
   const prompt = useChoice();
-  const message = useMessage();
+  const command = useCommand();
   const [index, setIndex] = useState(1);
 
   useEffect(() => {
-    if (message.currentItem?.type == "Action") {
-      message.currentItem.action();
+    if (command.currentItem?.type == "Action") {
+      command.currentItem.action();
     }
-  }, [message.currentItem]);
+  }, [command.currentItem]);
 
   useAnimationFrame(() => {
     if (
-      message.currentItem?.type == "Text" &&
-      index < message.currentItem.message.length
+      command.currentItem?.type == "Text" &&
+      index < command.currentItem.message.length
     ) {
       setIndex(index + 1);
     }
@@ -29,7 +29,7 @@ export function ScreenRenderer() {
 
   const handleClick = () => {
     setIndex(0);
-    message.next();
+    command.next();
   };
 
   return (
@@ -40,9 +40,9 @@ export function ScreenRenderer() {
             <MessageWindow width={width * 0.4} height={height * 0.2} />
           </Container>
         )}
-        {message.currentItem?.type == "Text" && (
+        {command.currentItem?.type == "Text" && (
           <Text
-            text={message.currentItem.message.slice(0, index)}
+            text={command.currentItem.message.slice(0, index)}
             style={{
               wordWrap: true,
               wordWrapWidth: width,

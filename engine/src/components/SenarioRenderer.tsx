@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { render } from "../reconciler/renderer";
-import { MessageContext, useMessage } from "../hooks/useMessage";
+import { CommandContext, useCommand } from "../hooks/useCommand";
 import { MemoryRouter } from "react-router";
 import { useContextBridge } from "../hooks/useContextBridge";
 import { ChoiceContext } from "../hooks/useChoice";
@@ -10,16 +10,16 @@ export type SenarioRendererProps = {
 };
 
 export function SenarioRenderer({ children }: SenarioRendererProps) {
-  const ContextBridge = useContextBridge(MessageContext, ChoiceContext);
-  const message = useMessage();
+  const ContextBridge = useContextBridge(CommandContext, ChoiceContext);
+  const command = useCommand();
   useEffect(() => {
     const unmount = render(
       <ContextBridge>
         <MemoryRouter>{children}</MemoryRouter>
       </ContextBridge>,
-      (containerInfo) => {
-        console.log("message updated", JSON.stringify(containerInfo));
-        message.setMessages([...containerInfo]);
+      (commands) => {
+        console.log("commands updated", JSON.stringify(commands));
+        command.setCommands([...commands]);
       }
     );
     return () => unmount();
