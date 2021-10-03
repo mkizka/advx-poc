@@ -16,7 +16,7 @@ function Senario1() {
     <Senario>
       <Text>{`プレーンテキスト1`}</Text>
       <Text>{`プレーンテキスト2`}</Text>
-      <Choice choices={["選択肢1", "選択肢2"]} />
+      <Choice choices={["選択肢1", "選択肢2", "選択肢33333333"]} />
       <Branch if={choice.is("選択肢1")}>
         <Text>Branch</Text>
       </Branch>

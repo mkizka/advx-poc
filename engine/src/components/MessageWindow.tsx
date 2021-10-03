@@ -1,4 +1,5 @@
 import { Graphics } from "@inlet/react-pixi";
+import { Graphics as PIXIGraphics } from "@pixi/graphics";
 import React from "react";
 
 export type MessageWindowProps = {
@@ -12,11 +13,11 @@ export function MessageWindow(props: MessageWindowProps) {
     <Graphics
       {...graphicsProps}
       draw={React.useCallback(
-        (g) => {
+        (g: PIXIGraphics) => {
           g.clear();
           g.lineStyle(2, 0xffffff, 0.8);
           g.beginFill(0xffffff, 0.1);
-          g.drawRoundedRect(0, 0, width, height, 15);
+          g.drawRect(0, 0, width, height);
           g.endFill();
         },
         [width, height]

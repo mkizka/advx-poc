@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Stage, Container, Text } from "@inlet/react-pixi";
+import { Stage, Container, Text, Graphics } from "@inlet/react-pixi";
 import { useCommand } from "../hooks/useCommand";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { MessageWindow } from "./MessageWindow";
 import { useAnimationFrame } from "../hooks/useAnimationFrame";
 import { useChoice } from "../hooks/useChoice";
+import { ChoiceWindow } from "./ChoiceWindow";
 
 export function ScreenRenderer() {
   const [width, height] = useWindowSize();
-  const prompt = useChoice();
+  const choice = useChoice();
   const command = useCommand();
   const [index, setIndex] = useState(1);
 
@@ -35,10 +36,12 @@ export function ScreenRenderer() {
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>
-        {prompt.choices != null && (
-          <Container x={width * 0.3} y={-height * 0.25}>
-            <MessageWindow width={width * 0.4} height={height * 0.2} />
-          </Container>
+        {choice.choices != null && (
+          <ChoiceWindow
+            x={width * 0.3}
+            y={-height * 0.25}
+            choices={choice.choices}
+          />
         )}
         {command.currentItem?.type == "Text" && (
           <Text
