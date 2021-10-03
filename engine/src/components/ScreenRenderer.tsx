@@ -13,15 +13,15 @@ export function ScreenRenderer() {
   const [index, setIndex] = useState(1);
 
   useEffect(() => {
-    if (message!.currentItem?.type == "Action") {
-      message!.currentItem.action();
+    if (message.currentItem?.type == "Action") {
+      message.currentItem.action();
     }
-  }, [message!.currentItem]);
+  }, [message.currentItem]);
 
   useAnimationFrame(() => {
     if (
-      message!.currentItem?.type == "Text" &&
-      index < message!.currentItem.message.length
+      message.currentItem?.type == "Text" &&
+      index < message.currentItem.message.length
     ) {
       setIndex(index + 1);
     }
@@ -29,20 +29,20 @@ export function ScreenRenderer() {
 
   const handleClick = () => {
     setIndex(0);
-    message!.next();
+    message.next();
   };
 
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>
-        {prompt!.isActive && (
+        {prompt.isActive && (
           <Container x={width * 0.3} y={-height * 0.25}>
             <MessageWindow width={width * 0.4} height={height * 0.2} />
           </Container>
         )}
-        {message!.currentItem?.type == "Text" && (
+        {message.currentItem?.type == "Text" && (
           <Text
-            text={message!.currentItem.message.slice(0, index)}
+            text={message.currentItem.message.slice(0, index)}
             style={{
               wordWrap: true,
               wordWrapWidth: width,

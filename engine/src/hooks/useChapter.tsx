@@ -7,7 +7,7 @@ export function useChapter() {
   return {
     goto: (name: string) => {
       history.push(`/${name}`);
-      message!.resetIndex();
+      message.resetIndex();
     },
   };
 }

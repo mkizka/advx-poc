@@ -19,7 +19,7 @@ export function SenarioRenderer({ children }: SenarioRendererProps) {
       </ContextBridge>,
       (containerInfo) => {
         console.log("message updated", JSON.stringify(containerInfo));
-        message!.setMessages([...containerInfo]);
+        message.setMessages([...containerInfo]);
       }
     );
     return () => unmount();

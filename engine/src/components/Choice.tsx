@@ -8,5 +8,5 @@ export type ChoiceProps = {
 
 export function Choice({ choices }: ChoiceProps) {
   const prompt = usePrompt();
-  return <Action action={() => prompt!.setIsActive(true)} />;
+  return <Action action={() => prompt.setIsActive(true)} />;
 }

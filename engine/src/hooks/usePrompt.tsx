@@ -1,4 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { createContext } from "../utils/createContext";
 
 function _usePrompt() {
   const [isActive, setIsActive] = useState(false);
@@ -13,7 +14,7 @@ function _usePrompt() {
 
 type Prompt = ReturnType<typeof _usePrompt>;
 
-export const PromptContext = React.createContext<Prompt | null>(null);
+export const [PromptContext, usePrompt] = createContext<Prompt>();
 
 export type PromptProviderProps = {
   children: React.ReactNode;
@@ -24,8 +25,4 @@ export function PromptProvider({ children }: PromptProviderProps) {
   return (
     <PromptContext.Provider value={value}>{children}</PromptContext.Provider>
   );
-}
-
-export function usePrompt() {
-  return useContext(PromptContext);
 }

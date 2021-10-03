@@ -1,5 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { ADVXCommand } from "../reconciler/types";
+import { createContext } from "../utils/createContext";
 
 function _useMessage() {
   const [messages, setMessages] = useState<ADVXCommand[] | null>(null);
@@ -25,7 +26,7 @@ function _useMessage() {
 
 type Message = ReturnType<typeof _useMessage>;
 
-export const MessageContext = React.createContext<Message | null>(null);
+export const [MessageContext, useMessage] = createContext<Message>();
 
 export type MessageProviderProps = {
   children: React.ReactNode;
@@ -36,8 +37,4 @@ export function MessageProvider({ children }: MessageProviderProps) {
   return (
     <MessageContext.Provider value={value}>{children}</MessageContext.Provider>
   );
-}
-
-export function useMessage() {
-  return useContext(MessageContext);
 }
