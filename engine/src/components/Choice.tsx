@@ -1,5 +1,5 @@
 import React from "react";
-import { usePrompt } from "../hooks/usePrompt";
+import { useChoice } from "../hooks/useChoice";
 import { Action } from "./Action";
 
 export type ChoiceProps = {
@@ -7,6 +7,6 @@ export type ChoiceProps = {
 };
 
 export function Choice({ choices }: ChoiceProps) {
-  const prompt = usePrompt();
-  return <Action action={() => prompt.setIsActive(true)} />;
+  const prompt = useChoice();
+  return <Action action={() => prompt.setChoices(choices)} />;
 }

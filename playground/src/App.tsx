@@ -1,26 +1,27 @@
-import React from "react";
 import {
   Game,
   Senario,
   Text,
   Chapter,
-  useChapter,
-  Action,
   Branch,
+  Choice,
+  useChoice,
+  Goto,
 } from "@advx/engine";
 import "./App.css";
 
 function Senario1() {
-  const chapter = useChapter();
+  const choice = useChoice();
   return (
     <Senario>
       <Text>{`プレーンテキスト1`}</Text>
       <Text>{`プレーンテキスト2`}</Text>
-      <Branch if={() => false}>
+      <Choice choices={["選択肢1", "選択肢2"]} />
+      <Branch if={choice.is("選択肢1")}>
         <Text>Branch</Text>
       </Branch>
       <Text>{`プレーンテキスト3`}</Text>
-      <Action action={() => chapter.goto("senario2")} />
+      <Goto to="senario2" />
     </Senario>
   );
 }

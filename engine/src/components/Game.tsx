@@ -1,6 +1,6 @@
 import React from "react";
 import { MessageProvider } from "../hooks/useMessage";
-import { PromptProvider } from "../hooks/usePrompt";
+import { ChoiceProvider } from "../hooks/useChoice";
 import { ScreenRenderer } from "./ScreenRenderer";
 import { SenarioRenderer } from "./SenarioRenderer";
 
@@ -11,10 +11,10 @@ export type GameProps = {
 export function Game({ children }: GameProps) {
   return (
     <MessageProvider>
-      <PromptProvider>
+      <ChoiceProvider>
         <ScreenRenderer />
         <SenarioRenderer>{children}</SenarioRenderer>
-      </PromptProvider>
+      </ChoiceProvider>
     </MessageProvider>
   );
 }

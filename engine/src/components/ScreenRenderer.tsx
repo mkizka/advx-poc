@@ -4,11 +4,11 @@ import { useMessage } from "../hooks/useMessage";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { MessageWindow } from "./MessageWindow";
 import { useAnimationFrame } from "../hooks/useAnimationFrame";
-import { usePrompt } from "../hooks/usePrompt";
+import { useChoice } from "../hooks/useChoice";
 
 export function ScreenRenderer() {
   const [width, height] = useWindowSize();
-  const prompt = usePrompt();
+  const prompt = useChoice();
   const message = useMessage();
   const [index, setIndex] = useState(1);
 
@@ -35,7 +35,7 @@ export function ScreenRenderer() {
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <Container y={height - height * 0.3}>
-        {prompt.isActive && (
+        {prompt.choices != null && (
           <Container x={width * 0.3} y={-height * 0.25}>
             <MessageWindow width={width * 0.4} height={height * 0.2} />
           </Container>

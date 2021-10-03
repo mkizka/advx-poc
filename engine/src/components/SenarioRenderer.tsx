@@ -3,14 +3,14 @@ import { render } from "../reconciler/renderer";
 import { MessageContext, useMessage } from "../hooks/useMessage";
 import { MemoryRouter } from "react-router";
 import { useContextBridge } from "../hooks/useContextBridge";
-import { PromptContext } from "../hooks/usePrompt";
+import { ChoiceContext } from "../hooks/useChoice";
 
 export type SenarioRendererProps = {
   children: React.ReactNode;
 };
 
 export function SenarioRenderer({ children }: SenarioRendererProps) {
-  const ContextBridge = useContextBridge(MessageContext, PromptContext);
+  const ContextBridge = useContextBridge(MessageContext, ChoiceContext);
   const message = useMessage();
   useEffect(() => {
     const unmount = render(

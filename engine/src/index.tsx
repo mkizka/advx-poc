@@ -7,3 +7,4 @@ export * from "./components/Goto";
 export * from "./components/Choice";
 export * from "./components/Action";
 export * from "./hooks/useChapter";
+export * from "./hooks/useChoice";
