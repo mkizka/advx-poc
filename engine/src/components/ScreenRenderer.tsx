@@ -47,6 +47,7 @@ export function ScreenRenderer() {
               wordWrap: true,
               wordWrapWidth: width,
               breakWords: true,
+              fill: "#fff",
             }}
           />
         )}

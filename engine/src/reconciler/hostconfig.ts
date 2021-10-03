@@ -6,12 +6,9 @@ export const hostConfig: HostConfig = {
   supportsPersistence: false,
   createInstance(type, props) {
     const { children, ..._props } = props;
-    console.log(arguments);
     switch (type) {
       case "Text":
         return { type, message: children, ..._props };
-      case "Branch":
-        return { type, senario: children, ..._props };
       case "Action":
         return { type, ..._props };
       default:

@@ -1,11 +1,14 @@
-import React from "react";
-import { BranchCommand } from "../reconciler/types";
+import React, { useState } from "react";
+import { Action } from "./Action";
 
-export type BranchProps = Omit<BranchCommand, "type">;
-
-const BranchElement = "Branch";
+export type BranchProps = {
+  if: () => boolean;
+  children: React.ReactNode;
+};
 
 export function Branch(props: BranchProps) {
-  // @ts-ignore
-  return <BranchElement {...props} />;
+  const [done, setDone] = useState(false);
+  if (!done) return <Action action={() => setDone(true)} />;
+  if (props.if()) return <>{props.children}</>;
+  else return null;
 }

@@ -1,16 +1,10 @@
 import ReactReconciler from "react-reconciler";
 
-export type ADVXCommand = TextCommand | BranchCommand | ActionCommand;
+export type ADVXCommand = TextCommand | ActionCommand;
 
 export type TextCommand = {
   type: "Text";
   message: string; // いつか部分修飾を出来るようにする
-};
-
-export type BranchCommand = {
-  type: "Branch";
-  if: () => void; // if()が真なら自身をsenario.commandsに置き換える
-  senario: ADVXCommand[];
 };
 
 export type ActionCommand = {

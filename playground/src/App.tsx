@@ -2,12 +2,11 @@ import React from "react";
 import {
   Game,
   Senario,
-  Style,
   Text,
   Chapter,
   useChapter,
   Action,
-  Choice,
+  Branch,
 } from "@advx/engine";
 import "./App.css";
 
@@ -17,7 +16,9 @@ function Senario1() {
     <Senario>
       <Text>{`プレーンテキスト1`}</Text>
       <Text>{`プレーンテキスト2`}</Text>
-      <Choice choices={["選択肢1", "選択肢2"]} />
+      <Branch if={() => false}>
+        <Text>Branch</Text>
+      </Branch>
       <Text>{`プレーンテキスト3`}</Text>
       <Action action={() => chapter.goto("senario2")} />
     </Senario>
