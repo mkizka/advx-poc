@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Stage, Container, Text, Graphics } from "@inlet/react-pixi";
+import { Stage, Container, Text } from "@inlet/react-pixi";
 import { useCommand } from "../hooks/useCommand";
-import { useWindowSize } from "../hooks/useWindowSize";
+import { useWindowSize, WindowSizeContext } from "../hooks/useWindowSize";
 import { MessageWindow } from "./MessageWindow";
 import { useAnimationFrame } from "../hooks/useAnimationFrame";
 import { useChoice } from "../hooks/useChoice";
 import { ChoiceWindow } from "./ChoiceWindow";
+import { useContextBridge } from "../hooks/useContextBridge";
 
 export function ScreenRenderer() {
+  const ContextBridge = useContextBridge(WindowSizeContext);
   const [width, height] = useWindowSize();
   const choice = useChoice();
   const command = useCommand();
@@ -35,32 +37,28 @@ export function ScreenRenderer() {
 
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
-      <Container y={height - height * 0.3}>
-        {choice.choices != null && (
-          <ChoiceWindow
-            x={width * 0.3}
-            y={-height * 0.25}
-            choices={choice.choices}
+      <ContextBridge>
+        {choice.choices != null && <ChoiceWindow choices={choice.choices} />}
+        <Container y={height - height * 0.3}>
+          {command.currentItem?.type == "Text" && (
+            <Text
+              text={command.currentItem.message.slice(0, index)}
+              style={{
+                wordWrap: true,
+                wordWrapWidth: width,
+                breakWords: true,
+                fill: "#fff",
+              }}
+            />
+          )}
+          <MessageWindow
+            width={width}
+            height={height * 0.3}
+            interactive={true}
+            pointerdown={handleClick}
           />
-        )}
-        {command.currentItem?.type == "Text" && (
-          <Text
-            text={command.currentItem.message.slice(0, index)}
-            style={{
-              wordWrap: true,
-              wordWrapWidth: width,
-              breakWords: true,
-              fill: "#fff",
-            }}
-          />
-        )}
-        <MessageWindow
-          width={width}
-          height={height * 0.3}
-          interactive={true}
-          pointerdown={handleClick}
-        />
-      </Container>
+        </Container>
+      </ContextBridge>
     </Stage>
   );
 }

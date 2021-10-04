@@ -2,10 +2,9 @@ import React, { useMemo, useState } from "react";
 import { Container, Graphics, Text } from "@inlet/react-pixi";
 import { TextMetrics, TextStyle } from "@pixi/text";
 import { MessageWindow } from "./MessageWindow";
+import { useWindowSize } from "../hooks/useWindowSize";
 
 export type ChoiceWindowProps = {
-  x: number;
-  y: number;
   choices: string[];
 };
 
@@ -16,7 +15,8 @@ const style = new TextStyle({
   fill: "#fff",
 });
 
-export function ChoiceWindow({ x, y, choices }: ChoiceWindowProps) {
+export function ChoiceWindow({ choices }: ChoiceWindowProps) {
+  const [width, height] = useWindowSize();
   const [hoverIndex, setHoverIndex] = useState(0);
 
   const maxWidth = useMemo(() => {
@@ -27,7 +27,10 @@ export function ChoiceWindow({ x, y, choices }: ChoiceWindowProps) {
   }, [choices]);
 
   return (
-    <Container x={x} y={y}>
+    <Container
+      x={width / 2 - maxWidth / 2}
+      y={height / 2 - (choices.length * fontSize) / 2}
+    >
       {choices.map((choice, i) => (
         <Text
           key={i}
