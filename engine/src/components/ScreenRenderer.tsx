@@ -40,9 +40,9 @@ export function ScreenRenderer() {
       <ContextBridge>
         {choice.choices != null && <ChoiceWindow choices={choice.choices} />}
         <Container y={height - height * 0.3}>
-          {command.currentItem?.type == "Text" && (
+          {command.currentText != null && (
             <Text
-              text={command.currentItem.message.slice(0, index)}
+              text={command.currentText.slice(0, index)}
               style={{
                 wordWrap: true,
                 wordWrapWidth: width,

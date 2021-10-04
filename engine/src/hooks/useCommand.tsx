@@ -1,11 +1,21 @@
 import React, { useState } from "react";
-import { ADVXCommand } from "../reconciler/types";
+import { ADVXCommand, TextCommand } from "../reconciler/types";
 import { createContext } from "../utils/createContext";
+
+function getCurrentText(commands: ADVXCommand[] | null, index: number) {
+  return commands != null && commands.length > 0
+    ? commands
+        .slice(0, index + 1)
+        .filter((command): command is TextCommand => command.type != "Action")
+        .pop()!.message
+    : null;
+}
 
 function _useCommand() {
   const [commands, setCommands] = useState<ADVXCommand[] | null>(null);
   const [index, setIndex] = useState(0);
   const currentItem = commands != null ? commands[index] : null;
+  const currentText = getCurrentText(commands, index);
   const next = () => {
     if (commands == null) {
       console.warn("commandsがnullの時にnext()を呼び出しています");
@@ -18,6 +28,7 @@ function _useCommand() {
   const resetIndex = () => setIndex(0);
   return {
     currentItem,
+    currentText,
     next,
     resetIndex,
     setCommands,
