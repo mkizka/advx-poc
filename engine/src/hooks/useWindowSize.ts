@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { createContext } from "../utils/createContext";
 
-export function useWindowSize() {
+function _useWindowSize() {
   const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
   useEffect(() => {
     const onResize = () => {
@@ -15,3 +16,12 @@ export function useWindowSize() {
   }, []);
   return size;
 }
+
+type WindowSize = ReturnType<typeof _useWindowSize>;
+
+export const [WindowSizeContext, useWindowSize, WindowSizeProvider] =
+  createContext<WindowSize>(_useWindowSize);
+
+export type CommandProviderProps = {
+  children: React.ReactNode;
+};

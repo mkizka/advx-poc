@@ -26,15 +26,9 @@ function _useCommand() {
 
 type Command = ReturnType<typeof _useCommand>;
 
-export const [CommandContext, useCommand] = createContext<Command>();
+export const [CommandContext, useCommand, CommandProvider] =
+  createContext<Command>(_useCommand);
 
 export type CommandProviderProps = {
   children: React.ReactNode;
 };
-
-export function CommandProvider({ children }: CommandProviderProps) {
-  const value = _useCommand();
-  return (
-    <CommandContext.Provider value={value}>{children}</CommandContext.Provider>
-  );
-}
