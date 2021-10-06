@@ -38,7 +38,9 @@ export function ScreenRenderer() {
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <ContextBridge>
-        {choice.choices != null && <ChoiceWindow choices={choice.choices} />}
+        {choice.choices != null && (
+          <ChoiceWindow choices={choice.choices} onAnswer={choice.setAnswer} />
+        )}
         <Container y={height - height * 0.3}>
           {command.currentText != null && (
             <Text

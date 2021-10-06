@@ -18,7 +18,13 @@ function Senario1() {
       <Text>{`プレーンテキスト2`}</Text>
       <Choice choices={["選択肢1", "選択肢2", "選択肢33333333"]} />
       <Branch if={choice.is("選択肢1")}>
-        <Text>Branch</Text>
+        <Text>選択肢1が選ばれました</Text>
+      </Branch>
+      <Branch if={choice.is("選択肢2")}>
+        <Text>選択肢2が選ばれました</Text>
+      </Branch>
+      <Branch if={choice.is("選択肢33333333")}>
+        <Text>{choice.answer}が選ばれました</Text>
       </Branch>
       <Text>{`プレーンテキスト3`}</Text>
       <Goto to="senario2" />

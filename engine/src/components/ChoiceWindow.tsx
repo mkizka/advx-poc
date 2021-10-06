@@ -6,6 +6,7 @@ import { useWindowSize } from "../hooks/useWindowSize";
 
 export type ChoiceWindowProps = {
   choices: string[];
+  onAnswer: (answer: string) => void;
 };
 
 const fontSize = 26;
@@ -15,7 +16,7 @@ const style = new TextStyle({
   fill: "#fff",
 });
 
-export function ChoiceWindow({ choices }: ChoiceWindowProps) {
+export function ChoiceWindow({ choices, onAnswer }: ChoiceWindowProps) {
   const [width, height] = useWindowSize();
   const [hoverIndex, setHoverIndex] = useState(0);
 
@@ -25,8 +26,6 @@ export function ChoiceWindow({ choices }: ChoiceWindowProps) {
     );
     return Math.max(...widths);
   }, [choices]);
-
-  console.log(hoverIndex);
 
   return (
     <Container
@@ -58,6 +57,7 @@ export function ChoiceWindow({ choices }: ChoiceWindowProps) {
             }}
             interactive={true}
             pointerover={() => setHoverIndex(i)}
+            pointerdown={() => onAnswer(choices[i])}
           />
         </React.Fragment>
       ))}
