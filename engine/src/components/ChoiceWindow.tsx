@@ -26,36 +26,41 @@ export function ChoiceWindow({ choices }: ChoiceWindowProps) {
     return Math.max(...widths);
   }, [choices]);
 
+  console.log(hoverIndex);
+
   return (
     <Container
       x={width / 2 - maxWidth / 2}
       y={height / 2 - (choices.length * fontSize) / 2}
     >
       {choices.map((choice, i) => (
-        <Text
-          key={i}
-          text={choice}
-          y={i * (fontSize + padding)}
-          style={style}
-          interactive={true}
-          pointerover={() => setHoverIndex(i)}
-        />
+        <React.Fragment key={i}>
+          <Text
+            key={i}
+            text={choice}
+            y={i * (fontSize + padding)}
+            style={style}
+          />
+          <Graphics
+            x={-padding / 2}
+            y={-padding / 2}
+            draw={(g) => {
+              g.clear();
+              // 透明にするとpointerイベントが発火しない？
+              g.beginFill(0xffffff, hoverIndex == i ? 0.1 : 0.01);
+              g.drawRect(
+                0,
+                i * (fontSize + padding),
+                maxWidth + padding,
+                fontSize + padding
+              );
+              g.endFill();
+            }}
+            interactive={true}
+            pointerover={() => setHoverIndex(i)}
+          />
+        </React.Fragment>
       ))}
-      <Graphics
-        x={-padding / 2}
-        y={-padding / 2}
-        draw={(g) => {
-          g.clear();
-          g.beginFill(0xffffff, 0.1);
-          g.drawRect(
-            0,
-            hoverIndex * (fontSize + padding),
-            maxWidth + padding,
-            fontSize + padding
-          );
-          g.endFill();
-        }}
-      />
       <MessageWindow
         x={-padding}
         y={-padding}
