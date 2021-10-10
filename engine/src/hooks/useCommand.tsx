@@ -27,6 +27,7 @@ function _useCommand() {
   };
   const resetIndex = () => setIndex(0);
   return {
+    commands,
     currentItem,
     currentText,
     next,

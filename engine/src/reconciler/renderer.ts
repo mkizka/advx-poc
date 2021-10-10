@@ -1,25 +1,7 @@
-import type { ReactNode } from "react";
 import ReactReconciler from "react-reconciler";
 import { hostConfig } from "./hostconfig";
-import { ADVXCommand } from "./types";
 
-const ADVXFiber = ReactReconciler(hostConfig);
-
-export function render(
-  target: ReactNode,
-  callback?: (container: ADVXCommand[]) => void
-) {
-  const container = ADVXFiber.createContainer([], 0, false, null);
-  const handleUpdate = () => {
-    callback && callback(container.containerInfo);
-  };
-  window.addEventListener("__ADVX_UPDATE__", handleUpdate);
-  ADVXFiber.updateContainer(target, container, null);
-  return () => {
-    window.removeEventListener("__ADVX_UPDATE__", handleUpdate);
-    ADVXFiber.updateContainer(null, container, null);
-  };
-}
+export const ADVXFiber = ReactReconciler(hostConfig);
 
 ADVXFiber.injectIntoDevTools({
   bundleType: 1,
