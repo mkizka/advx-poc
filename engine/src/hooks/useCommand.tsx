@@ -3,11 +3,14 @@ import { ADVXCommand, TextCommand } from "../reconciler/types";
 import { createContext } from "../utils/createContext";
 
 function getCurrentText(commands: ADVXCommand[] | null, index: number) {
-  return commands != null && commands.length > 0
-    ? commands
-        .slice(0, index + 1)
-        .filter((command): command is TextCommand => command.type != "Action")
-        .pop()!.message
+  const textCommands =
+    commands != null
+      ? commands
+          .slice(0, index + 1)
+          .filter((command): command is TextCommand => command.type != "Action")
+      : null;
+  return textCommands != null && textCommands.length > 0
+    ? textCommands.pop()!.message
     : null;
 }
 
