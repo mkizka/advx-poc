@@ -8,7 +8,7 @@ export const hostConfig: HostConfig = {
     const { children, ..._props } = props;
     switch (type) {
       case "Text":
-        return { type, message: children, ..._props };
+        return { type, ..._props };
       case "Action":
         return { type, ..._props };
       default:
@@ -21,17 +21,29 @@ export const hostConfig: HostConfig = {
   appendInitialChild(command, child) {
     //
   },
-  finalizeInitialChildren() {
-    // 必要なければfalseを返す
+  finalizeInitialChildren(instance, _, props) {
+    if (instance.type == "Text") {
+      instance.message = props.children;
+    }
     return false;
   },
   prepareUpdate() {
     // 必要なければnullを返す？
-    return null;
+    return {};
   },
-  shouldSetTextContent(type, props) {
+  commitUpdate(instance, _updatePayload, _type, _prevProps, nextProps) {
+    if (instance.type == "Text") {
+      instance.message = nextProps.children;
+    }
+  },
+  shouldSetTextContent(type) {
     // trueなら子要素に対してcreateTextInstanceやappendInitialChildが呼ばれない？
     return type == "Text";
+  },
+  resetTextContent(instance) {
+    if (instance.type == "Text") {
+      instance.message = "";
+    }
   },
   getRootHostContext() {
     // 必要なければnullを返す
