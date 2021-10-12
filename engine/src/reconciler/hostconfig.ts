@@ -17,7 +17,6 @@ export const hostConfig: HostConfig = {
     const { children, ..._props } = props;
     switch (type) {
       case "Text":
-        return { type, ..._props };
       case "Action":
         return { type, ..._props };
       default:
@@ -32,7 +31,7 @@ export const hostConfig: HostConfig = {
   },
   finalizeInitialChildren(instance, _, props) {
     if (instance.type == "Text") {
-      instance.message = props.children;
+      instance.message = [...props.children].join("");
     }
     return false;
   },
