@@ -7,6 +7,7 @@ import {
   Choice,
   useChoice,
   Goto,
+  Action,
 } from "@advx/engine";
 import "./App.css";
 
@@ -14,6 +15,11 @@ function Senario1() {
   const choice = useChoice();
   return (
     <Senario>
+      <Action action={() => console.log("a")} />
+      <Action action={() => console.log("b")} />
+      <Action action={() => console.log("c")} />
+      <Action action={() => console.log("d")} />
+      <Action action={() => console.log("e")} />
       <Text>{`プレーンテキスト1`}</Text>
       <Text>{`プレーンテキスト2`}</Text>
       <Choice choices={["選択肢1", "選択肢2", "選択肢33333333"]} />

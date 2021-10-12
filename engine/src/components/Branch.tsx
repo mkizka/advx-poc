@@ -8,7 +8,7 @@ export type BranchProps = {
 
 export function Branch(props: BranchProps) {
   const [done, setDone] = useState(false);
-  if (!done) return <Action action={() => setDone(true)} />;
+  if (!done) return <Action action={() => setDone(true)} preventNext />;
   if (props.if()) return <>{props.children}</>;
   else return null;
 }

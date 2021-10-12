@@ -22,6 +22,7 @@ class SenarioRendererInner extends React.Component<SenarioRendererInnerProps> {
     ADVXFiber.updateContainer(this.props.children, this.container, this);
   }
   componentDidUpdate() {
+    console.debug("commands updated", JSON.stringify(this.props.commands));
     ADVXFiber.updateContainer(this.props.children, this.container, this);
   }
   componentWillUnmount() {
@@ -46,7 +47,6 @@ export function SenarioRenderer({ children }: SenarioRendererProps) {
   const ContextBridge = useContextBridge(CommandContext, ChoiceContext);
   const command = useCommand();
   const handleUpdate = (commands: ADVXCommand[]) => {
-    console.log("commands updated", JSON.stringify(commands));
     command.setCommands([...commands]);
   };
   return (

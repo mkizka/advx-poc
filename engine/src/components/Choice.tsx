@@ -8,5 +8,5 @@ export type ChoiceProps = {
 
 export function Choice({ choices }: ChoiceProps) {
   const prompt = useChoice();
-  return <Action action={() => prompt.setChoices(choices)} />;
+  return <Action action={() => prompt.setChoices(choices)} preventNext />;
 }

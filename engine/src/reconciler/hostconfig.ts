@@ -1,5 +1,14 @@
 import { HostConfig } from "./types";
 
+// https://github.com/jiayihu/react-tiny-dom/blob/8bc2a23/renderer/tiny-dom.js
+function shallowDiff<T extends { [key: string]: any }>(oldObj: T, newObj: T) {
+  const uniqueProps = new Set([...Object.keys(oldObj), ...Object.keys(newObj)]);
+  const changedProps = Array.from(uniqueProps).filter(
+    (propName) => oldObj[propName] !== newObj[propName]
+  );
+  return changedProps;
+}
+
 export const hostConfig: HostConfig = {
   now: Date.now,
   supportsMutation: true, //ok
@@ -27,14 +36,14 @@ export const hostConfig: HostConfig = {
     }
     return false;
   },
-  prepareUpdate() {
-    // 必要なければnullを返す？
-    return {};
+  prepareUpdate(_instance, _type, oldProps, newProps) {
+    return shallowDiff(oldProps, newProps);
   },
-  commitUpdate(instance, _updatePayload, _type, _prevProps, nextProps) {
-    if (instance.type == "Text") {
-      instance.message = nextProps.children;
-    }
+  commitUpdate(instance, updatePayload, _type, _oldProps, nextProps) {
+    // TODO:型を治す
+    updatePayload.forEach((propName: keyof typeof instance) => {
+      instance[propName] = nextProps[propName];
+    });
   },
   shouldSetTextContent(type) {
     // trueなら子要素に対してcreateTextInstanceやappendInitialChildが呼ばれない？
