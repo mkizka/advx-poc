@@ -22,7 +22,7 @@ export type HostConfig = ReactReconciler.HostConfig<
   any,
   any,
   any,
-  any,
+  any[],
   any,
   any,
   -1

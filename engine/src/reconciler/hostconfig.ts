@@ -39,9 +39,12 @@ export const hostConfig: HostConfig = {
     return shallowDiff(oldProps, newProps);
   },
   commitUpdate(instance, updatePayload, _type, _oldProps, nextProps) {
-    // TODO:型を治す
-    updatePayload.forEach((propName: keyof typeof instance) => {
-      instance[propName] = nextProps[propName];
+    updatePayload.forEach((propName) => {
+      if (propName == "children" && instance.type == "Text") {
+        instance.message = [...nextProps.children].join("");
+      } else {
+        instance[propName as keyof typeof instance] = nextProps[propName];
+      }
     });
   },
   shouldSetTextContent(type) {
