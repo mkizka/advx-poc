@@ -8,5 +8,5 @@ export type GotoProps = {
 
 export function Goto({ to }: GotoProps) {
   const chapter = useChapter();
-  return <Action action={() => chapter.goto(to)} />;
+  return <Action action={() => chapter.goto(to)} preventNext />;
 }
