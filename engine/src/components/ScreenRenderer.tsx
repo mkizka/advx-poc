@@ -34,6 +34,7 @@ export function ScreenRenderer() {
   }, [command.currentText]);
 
   const handleClick = () => {
+    if (choice.choices != null) return;
     if (command.currentText != null && index < command.currentText.length - 1) {
       setIndex(command.currentText.length);
     } else {
