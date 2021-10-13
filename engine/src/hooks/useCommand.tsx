@@ -29,6 +29,8 @@ function _useCommand() {
 
   const currentItem = commands != null ? commands[index.current] : null;
   const currentText = getCurrentText(commands, index.current);
+  const hasNextText =
+    commands != null && commands[index.current + 1]?.type == "Text";
 
   // next が呼ばれる前のマウント時の index を保持
   let debugIndex = index.current;
@@ -56,6 +58,7 @@ function _useCommand() {
     commands,
     currentItem,
     currentText,
+    hasNextText,
     next,
     resetIndex,
     setCommands,

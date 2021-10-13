@@ -21,18 +21,24 @@ export function ScreenRenderer() {
     }
   }, [command.currentItem]);
 
-  useAnimationFrame(() => {
-    if (
-      command.currentItem?.type == "Text" &&
-      index < command.currentItem.message.length
-    ) {
-      setIndex(index + 1);
+  useEffect(() => {
+    if (index < (command.currentText || "").length) {
+      setTimeout(() => {
+        setIndex((index) => index + 1);
+      }, 40);
     }
-  });
+  }, [command.currentText, index]);
+
+  useEffect(() => {
+    setIndex(1);
+  }, [command.currentText]);
 
   const handleClick = () => {
-    setIndex(0);
-    command.next();
+    if (command.currentText != null && index < command.currentText.length - 1) {
+      setIndex(command.currentText.length);
+    } else {
+      command.next();
+    }
   };
 
   return (
