@@ -23,9 +23,10 @@ export function ScreenRenderer() {
 
   useEffect(() => {
     if (index < (command.currentText || "").length) {
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         setIndex((index) => index + 1);
-      }, 40);
+      }, 20);
+      return () => clearTimeout(timeoutId);
     }
   }, [command.currentText, index]);
 
