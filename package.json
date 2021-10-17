@@ -1,10 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "dev:engine": "yarn workspace @advx/engine dev",
-    "build:engine": "yarn workspace @advx/engine build",
-    "dev:playground": "yarn workspace @advx/playground dev",
-    "dev": "yarn build:engine && run-p dev:engine dev:playground"
+    "dev:engine": "pnpm dev --filter=@advx/engine",
+    "build:engine": "pnpm build --filter=@advx/engine",
+    "dev:playground": "pnpm dev --filter=@advx/playground",
+    "dev": "pnpm build:engine && run-p dev:engine dev:playground"
   },
   "workspaces": [
     "engine",

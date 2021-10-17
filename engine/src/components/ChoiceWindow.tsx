@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Container, Graphics, Text } from "@inlet/react-pixi";
-import { TextMetrics, TextStyle } from "@pixi/text";
+import { TextMetrics, TextStyle } from "pixi.js";
 import { MessageWindow } from "./MessageWindow";
 import { useWindowSize } from "../hooks/useWindowSize";
 

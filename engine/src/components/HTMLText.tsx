@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 import { PixiComponent, Text } from "@inlet/react-pixi";
 import { HTMLText as PixiHTMLText } from "@pixi/text-html";
-import { TextStyle } from "@pixi/text";
+import { TextStyle } from "pixi.js";
 
 type Style = ComponentProps<typeof Text>["style"];
 

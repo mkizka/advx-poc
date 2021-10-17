@@ -1,5 +1,5 @@
 import { Graphics } from "@inlet/react-pixi";
-import { Graphics as PIXIGraphics } from "@pixi/graphics";
+import { Graphics as PIXIGraphics } from "pixi.js";
 import React from "react";
 
 export type MessageWindowProps = {
