@@ -8,7 +8,6 @@ importers:
   engine:
     specifiers:
       '@inlet/react-pixi': ^6.6.5
-      '@pixi/text-html': ^2.0.0
       '@rollup/plugin-json': ^4.1.0
       '@rollup/plugin-typescript': ^8.3.0
       '@types/react': ^17.0.30
@@ -23,7 +22,6 @@ importers:
       typescript: 4.4.4
     dependencies:
       '@inlet/react-pixi': 6.6.5_pixi.js@6.1.3+react@17.0.2
-      '@pixi/text-html': 2.0.0
       pixi.js: 6.1.3
       react: 17.0.2
       react-reconciler: 0.26.2_react@17.0.2
@@ -746,17 +744,6 @@ packages:
       '@pixi/settings': 6.1.3
       '@pixi/text': 6.1.3_5d7dd50bc3103587a64baa7879733c36
       '@pixi/utils': 6.1.3_f311d3c898b5ef30185642844dc20035
-    dev: false
-
-  /@pixi/text-html/2.0.0:
-    resolution: {integrity: sha512-SVjqHYNAdhPLattC+N6nryWWq2lAJmeY+CZHIV6d+7Ei2ovijlcwX+SWo5bZHQeAZWD4hLuahbNgzog25Iqv0g==}
-    peerDependencies:
-      '@pixi/core': ^6.0.0
-      '@pixi/math': ^6.0.0
-      '@pixi/settings': ^6.0.0
-      '@pixi/sprite': ^6.0.0
-      '@pixi/text': ^6.0.0
-      '@pixi/utils': ^6.0.0
     dev: false
 
   /@pixi/text/6.1.3_5d7dd50bc3103587a64baa7879733c36:
