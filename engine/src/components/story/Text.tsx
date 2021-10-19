@@ -1,5 +1,5 @@
 import React from "react";
-import { TextCommand } from "../reconciler/types";
+import { TextCommand } from "../../reconciler/types";
 
 export type TextProps = Omit<TextCommand, "type" | "message"> & {
   children: React.ReactNode;

@@ -1,5 +1,5 @@
 import React from "react";
-import { useChoice } from "../hooks/useChoice";
+import { useChoice } from "../../hooks/useChoice";
 import { Action } from "./Action";
 
 export type ChoiceProps = {

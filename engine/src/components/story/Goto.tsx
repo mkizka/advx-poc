@@ -1,5 +1,5 @@
 import React from "react";
-import { useChapter } from "../hooks/useChapter";
+import { useChapter } from "../../hooks/useChapter";
 import { Action } from "./Action";
 
 export type GotoProps = {

@@ -1,6 +1,6 @@
 import React from "react";
-import { useCommand } from "../hooks/useCommand";
-import { ActionCommand } from "../reconciler/types";
+import { useCommand } from "../../hooks/useCommand";
+import { ActionCommand } from "../../reconciler/types";
 
 export type ActionProps = Omit<ActionCommand, "type"> & {
   preventNext?: boolean;

@@ -6,11 +6,11 @@ import {
   WindowSizeContext,
   WindowSizeProvider,
 } from "../hooks/useWindowSize";
-import { MessageWindow } from "./MessageWindow";
+import { MessageWindow } from "./screen/MessageWindow";
 import { useChoice } from "../hooks/useChoice";
-import { ChoiceWindow } from "./ChoiceWindow";
+import { ChoiceWindow } from "./screen/ChoiceWindow";
 import { useContextBridge } from "../hooks/useContextBridge";
-import { AssetLoader } from "./AssetLoader";
+import { AssetLoader } from "./screen/AssetLoader";
 
 const assets = [
   {
