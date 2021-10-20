@@ -29,8 +29,10 @@ function _useChoice() {
 
 type Choice = ReturnType<typeof _useChoice>;
 
-export const [ChoiceContext, useChoice, ChoiceProvider] =
-  createContext<Choice>(_useChoice);
+export const [ChoiceContext, useChoice, ChoiceProvider] = createContext<Choice>(
+  "Choice",
+  _useChoice
+);
 
 export type ChoiceProviderProps = {
   children: React.ReactNode;

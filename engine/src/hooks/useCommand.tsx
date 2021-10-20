@@ -68,7 +68,7 @@ function _useCommand() {
 type Command = ReturnType<typeof _useCommand>;
 
 export const [CommandContext, useCommand, CommandProvider] =
-  createContext<Command>(_useCommand);
+  createContext<Command>("Command", _useCommand);
 
 export type CommandProviderProps = {
   children: React.ReactNode;

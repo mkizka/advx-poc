@@ -3,14 +3,17 @@ import React, {
   useContext as reactUseContext,
 } from "react";
 
-type Provider = (props: { children: React.ReactNode }) => JSX.Element;
+type ProviderProps = { children: React.ReactNode };
+type ProviderComponent = React.VFC<ProviderProps>;
 
-function createContext<T>(): [React.Context<T | null>, () => T];
+function createContext<T>(name: string): [React.Context<T | null>, () => T];
 function createContext<T>(
+  name: string,
   hook: () => T
-): [React.Context<T | null>, () => T, Provider];
-function createContext<T>(hook?: () => T) {
+): [React.Context<T | null>, () => T, ProviderComponent];
+function createContext<T>(name: string, hook?: () => T) {
   const Context = reactCreateContext<T | null>(null);
+  Context.displayName = `${name}Context`;
   function useContext() {
     const context = reactUseContext(Context);
     if (context == null) {
@@ -19,10 +22,11 @@ function createContext<T>(hook?: () => T) {
     return context;
   }
   if (hook != undefined) {
-    const Provider = ({ children }: { children: React.ReactNode }) => {
+    const Provider: ProviderComponent = ({ children }) => {
       const value = hook();
       return <Context.Provider value={value}>{children}</Context.Provider>;
     };
+    Provider.displayName = `${name}Provider`;
     return [Context, useContext, Provider] as const;
   }
   return [Context, useContext] as const;

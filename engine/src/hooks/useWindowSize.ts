@@ -20,7 +20,7 @@ function _useWindowSize() {
 type WindowSize = ReturnType<typeof _useWindowSize>;
 
 export const [WindowSizeContext, useWindowSize, WindowSizeProvider] =
-  createContext<WindowSize>(_useWindowSize);
+  createContext<WindowSize>("WindowSize", _useWindowSize);
 
 export type CommandProviderProps = {
   children: React.ReactNode;
