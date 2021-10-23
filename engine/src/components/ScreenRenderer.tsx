@@ -6,7 +6,7 @@ import {
   WindowSizeContext,
   WindowSizeProvider,
 } from "../hooks/useWindowSize";
-import { MessageWindow } from "./screen/MessageWindow";
+import { BasicWindow } from "./screen/BasicWindow";
 import { useChoice } from "../hooks/useChoice";
 import { ChoiceWindow } from "./screen/ChoiceWindow";
 import { useContextBridge } from "../hooks/useContextBridge";
@@ -76,7 +76,7 @@ function ScreenRendererInner() {
                 }}
               />
             )}
-            <MessageWindow
+            <BasicWindow
               width={width}
               height={height * 0.3}
               interactive={true}

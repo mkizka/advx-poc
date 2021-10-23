@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Container, Graphics, Text } from "@inlet/react-pixi";
 import { TextMetrics, TextStyle } from "pixi.js";
-import { MessageWindow } from "./MessageWindow";
+import { BasicWindow } from "./BasicWindow";
 import { useWindowSize } from "../../hooks/useWindowSize";
 
 export type ChoiceWindowProps = {
@@ -61,7 +61,7 @@ export function ChoiceWindow({ choices, onAnswer }: ChoiceWindowProps) {
           />
         </React.Fragment>
       ))}
-      <MessageWindow
+      <BasicWindow
         x={-padding}
         y={-padding}
         width={maxWidth + padding * 2}

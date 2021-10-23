@@ -2,12 +2,12 @@ import { Graphics } from "@inlet/react-pixi";
 import { Graphics as PIXIGraphics } from "pixi.js";
 import React from "react";
 
-export type MessageWindowProps = {
+export type BasicWindowProps = {
   width: number;
   height: number;
 } & React.ComponentProps<typeof Graphics>;
 
-export function MessageWindow(props: MessageWindowProps) {
+export function BasicWindow(props: BasicWindowProps) {
   const { width, height, ...graphicsProps } = props;
   return (
     <Graphics
