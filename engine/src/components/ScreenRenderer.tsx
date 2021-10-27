@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Stage, Container, Text } from "@inlet/react-pixi";
-import { useCommand } from "../hooks/useCommand";
-import {
-  useWindowSize,
-  WindowSizeContext,
-  WindowSizeProvider,
-} from "../hooks/useWindowSize";
-import { BasicWindow } from "./screen/BasicWindow";
-import { useChoice } from "../hooks/useChoice";
-import { ChoiceWindow } from "./screen/ChoiceWindow";
-import { useContextBridge } from "../hooks/useContextBridge";
+import React from "react";
+import { Stage } from "@inlet/react-pixi";
 import { AssetLoader } from "./screen/AssetLoader";
+import { useWindowSize, WindowSizeContext } from "../hooks/useWindowSize";
+import { useContextBridge } from "../hooks/useContextBridge";
+import { ChoiceContext } from "../hooks/useChoice";
+import { CommandContext } from "../hooks/useCommand";
 
 const assets = [
   {
@@ -19,80 +13,22 @@ const assets = [
   },
 ];
 
-function ScreenRendererInner() {
-  const ContextBridge = useContextBridge(WindowSizeContext);
+type ScreenRendererProps = {
+  children?: React.ReactNode;
+};
+
+export function ScreenRenderer({ children }: ScreenRendererProps) {
+  const ContextBridge = useContextBridge(
+    CommandContext,
+    ChoiceContext,
+    WindowSizeContext
+  );
   const [width, height] = useWindowSize();
-  const choice = useChoice();
-  const command = useCommand();
-  const [index, setIndex] = useState(1);
-
-  useEffect(() => {
-    if (command.currentItem?.type == "Action") {
-      command.currentItem.action();
-    }
-  }, [command.currentItem]);
-
-  useEffect(() => {
-    if (index < (command.currentText || "").length) {
-      const timeoutId = setTimeout(() => {
-        setIndex((index) => index + 1);
-      }, 20);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [command.currentText, index]);
-
-  useEffect(() => {
-    setIndex(1);
-  }, [command.currentText]);
-
-  const handleClick = () => {
-    if (choice.choices != null) return;
-    if (command.currentText != null && index < command.currentText.length - 1) {
-      setIndex(command.currentText.length);
-    } else {
-      command.next();
-    }
-  };
-
   return (
     <Stage width={width} height={height} options={{ resizeTo: window }}>
       <ContextBridge>
-        <AssetLoader assets={assets}>
-          {choice.choices != null && (
-            <ChoiceWindow
-              choices={choice.choices}
-              onAnswer={choice.setAnswer}
-            />
-          )}
-          <Container y={height - height * 0.3}>
-            {command.currentText != null && (
-              <Text
-                text={command.currentText.slice(0, index)}
-                style={{
-                  wordWrap: true,
-                  wordWrapWidth: width,
-                  breakWords: true,
-                  fill: "#fff",
-                }}
-              />
-            )}
-            <BasicWindow
-              width={width}
-              height={height * 0.3}
-              interactive={true}
-              pointerdown={handleClick}
-            />
-          </Container>
-        </AssetLoader>
+        <AssetLoader assets={assets}>{children}</AssetLoader>
       </ContextBridge>
     </Stage>
-  );
-}
-
-export function ScreenRenderer() {
-  return (
-    <WindowSizeProvider>
-      <ScreenRendererInner />
-    </WindowSizeProvider>
   );
 }

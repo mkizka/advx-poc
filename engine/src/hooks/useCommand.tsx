@@ -38,6 +38,12 @@ function _useCommand() {
     console.debug("index:", debugIndex, "command:", currentItem);
   });
 
+  useEffect(() => {
+    if (currentItem?.type == "Action") {
+      currentItem.action();
+    }
+  }, [currentItem]);
+
   const next = () => {
     if (commands == null) {
       console.warn("commandsがnullの時にnext()を呼び出しています");
