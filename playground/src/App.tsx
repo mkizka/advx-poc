@@ -8,6 +8,9 @@ import {
   useChoice,
   Goto,
   Action,
+  SenarioRenderer,
+  ScreenRenderer,
+  MessageWindow,
 } from "@advx/engine";
 import "./App.css";
 
@@ -43,8 +46,13 @@ function Senario2() {
 function App() {
   return (
     <Game>
-      <Chapter senario={Senario1} />
-      <Chapter name="senario2" senario={Senario2} />
+      <SenarioRenderer>
+        <Chapter senario={Senario1} />
+        <Chapter name="senario2" senario={Senario2} />
+      </SenarioRenderer>
+      <ScreenRenderer>
+        <MessageWindow />
+      </ScreenRenderer>
     </Game>
   );
 }
