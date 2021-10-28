@@ -2,8 +2,6 @@
 ADV + jsx
 
 ```jsx
-import { Game} from "advx"
-
 function App() {
   return (
     <Game>
